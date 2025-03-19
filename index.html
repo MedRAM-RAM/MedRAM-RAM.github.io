@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>فهرسة تورنتات EZTV</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #search { margin-bottom: 20px; }
+    #results div { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>فهرسة تورنتات EZTV</h1>
+  <div id="search">
+    <input type="text" id="title" placeholder="اسم المسلسل (مثل: Game)">
+    <select id="quality">
+      <option value="720p">720p</option>
+      <option value="1080p">1080p</option>
+    </select>
+    <button onclick="searchTorrents()">بحث</button>
+  </div>
+  <div id="results"></div>
+  <p>تحذير: قم بالتنزيل على مسؤوليتك الخاصة.</p>
+  <script src="script.js"></script>
+</body>
+</html>
