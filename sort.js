@@ -5,7 +5,7 @@ function extractInfo(title) {
     const seasonEpisodeRegex = /S(\d{2})E(\d{2})/i; // S01E01
     const qualityRegex = /(1080p|720p|480p)/i; // 1080p, 720p, 480p
     const encodingRegex = /(x265|x264)/i; // x265, x264
-    const teamRegex = /-(?!EZTV)([A-Za-z0-9]+)(?= EZTV)/i; // الفريق قبل EZTV
+    const teamRegex = /-([A-Za-z0-9]+)(?= EZTV)/i; // الفريق قبل EZTV
 
     const seasonEpisodeMatch = title.match(seasonEpisodeRegex);
     const qualityMatch = title.match(qualityRegex);
