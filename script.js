@@ -2,6 +2,7 @@ function searchTorrents() {
   const title = document.getElementById('title').value;
   const quality = document.getElementById('quality').value;
   const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?limit=10&page=1`;
+  alert("تم الضغط على زر البحث");
   fetch(url)
     .then(response => response.json())
     .then(data => {
