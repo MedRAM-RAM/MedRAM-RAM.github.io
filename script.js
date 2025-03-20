@@ -173,7 +173,7 @@ function fetchTorrents(imdbId, page) {
                     const torrentDiv = document.createElement('div');
                     torrentDiv.innerHTML = `
                         <h3>${torrent.title}</h3>
-                        <p>الحجم: ${torrent.size_bytes} بايت</p>
+                        <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
                         <a href="${torrent.magnet_url}">رابط المغناطيس</a>
                     `;
                     resultsDiv.appendChild(torrentDiv);
