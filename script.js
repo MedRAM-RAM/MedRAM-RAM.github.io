@@ -1,73 +1,78 @@
 // تعريف نمط Regex لتحليل العناوين
 const regex = /^(.+?)\s+S(\d+)E(\d+)?\s+(.*?)(480p|720p|1080p)\s+(.*?)(xvid|x264|x265|H\.?264)?(?:-|\s)([A-Za-z0-9]+)?(?:\s*\[eztv\])?$/;
 
-// دالة البحث العادي
+// دالة للحصول على IMDb ID من OMDb API باستخدام العنوان
 async function getImdbIdFromTitle(title) {
-  const apiKey = '9b8d2c00'; // استبدل بمفتاحك
+  const apiKey = '9b8d2c00'; // استبدل بمفتاحك الخاص من OMDb
   const response = await fetch(`http://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${apiKey}`);
   const data = await response.json();
   return data.imdbID || null;
 }
+
+// دالة البحث باستخدام العنوان (تحويله إلى IMDb ID ثم جلب التورنتات)
 async function searchTorrents() {
   const title = document.getElementById('title').value;
+  const quality = document.getElementById('quality').value;
+  const codec = document.getElementById('codec').value;
+  const group = document.getElementById('group').value;
+
   if (!title) {
     alert('يرجى إدخال عنوان');
     return;
   }
+
   const imdbId = await getImdbIdFromTitle(title);
-  if (imdbId) {
-    const url = `https://eztvx.to/api/get-torrents?imdb_id=${imdbId}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(data => displayTorrents(data.torrents))
-      .catch(error => console.error('خطأ:', error));
-  const quality = document.getElementById('quality').value;
-  const codec = document.getElementById('codec').value;
-  const group = document.getElementById('group').value;
-  const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?limit=100&page=1`;
-  }
-  else {
+  if (!imdbId) {
     alert('لم يتم العثور على IMDb ID لهذا العنوان');
+    return;
   }
-}
+
+  const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=100`;
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      const filteredTorrents = data.torrents.filter(torrent => {
-        const matches = torrent.title.match(regex);
-        if (!matches) return false;
+      if (data.torrents) {
+        const filteredTorrents = data.torrents.filter(torrent => {
+          const matches = torrent.title.match(regex);
+          if (!matches) return false;
 
-        const showName = matches[1].toLowerCase();
-        const torrentQuality = matches[5];
-        const torrentCodec = matches[7] || '';
-        const torrentGroup = matches[8] || '';
+          const torrentQuality = matches[5];
+          const torrentCodec = matches[7] || '';
+          const torrentGroup = matches[8] || '';
 
-        const titleMatch = title ? showName.includes(title) : true;
-        const qualityMatch = quality !== 'none' ? torrentQuality === quality : true;
-        const codecMatch = codec !== 'none' ? torrentCodec.toLowerCase() === codec.toLowerCase() : true;
-        const groupMatch = group !== 'none' ? torrentGroup.toLowerCase() === group.toLowerCase() : true;
+          const qualityMatch = quality !== 'none' ? torrentQuality === quality : true;
+          const codecMatch = codec !== 'none' ? torrentCodec.toLowerCase() === codec.toLowerCase() : true;
+          const groupMatch = group !== 'none' ? torrentGroup.toLowerCase() === group.toLowerCase() : true;
 
-        return titleMatch && qualityMatch && codecMatch && groupMatch;
-      });
-      displayTorrents(filteredTorrents);
-      generateRSS(filteredTorrents);
+          return qualityMatch && codecMatch && groupMatch;
+        });
+        displayTorrents(filteredTorrents);
+        generateRSS(filteredTorrents);
+      } else {
+        alert('لم يتم العثور على تورنتات لهذا العنوان');
+      }
     })
     .catch(error => console.error('خطأ:', error));
 }
 
-// دالة البحث باستخدام IMDb ID (منفصلة تمامًا)
+// دالة البحث المباشر باستخدام IMDb ID
 function searchByImdb() {
   const imdbId = document.getElementById('imdb').value;
   if (!imdbId) {
     alert('يرجى إدخال IMDb ID');
     return;
   }
-  const url = `https://eztvx.to/api/get-torrents?imdb_id=${imdbId}`;
+
+  const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=100`;
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      displayTorrents(data.torrents);
-      generateRSS(data.torrents);
+      if (data.torrents) {
+        displayTorrents(data.torrents);
+        generateRSS(data.torrents);
+      } else {
+        alert('لم يتم العثور على تورنتات لهذا الـ ID');
+      }
     })
     .catch(error => console.error('خطأ:', error));
 }
