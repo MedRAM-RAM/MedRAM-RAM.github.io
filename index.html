@@ -13,7 +13,7 @@
 <body>
   <h1>فهرسة تورنتات EZTV</h1>
   
-  <!-- نموذج البحث العادي -->
+  <!-- نموذج البحث باستخدام العنوان (يستخدم IMDb ID عبر OMDb) -->
   <div id="search">
     <label for="title">اسم المسلسل:</label>
     <input type="text" id="title" placeholder="مثل: Game">
@@ -38,10 +38,10 @@
     <label for="group">الفريق:</label>
     <input type="text" id="group" placeholder="مثل: SYNCOPY">
     
-    <button onclick="searchTorrents()">بحث عادي</button>
+    <button onclick="searchTorrents()">بحث باستخدام العنوان</button>
   </div>
   
-  <!-- نموذج البحث باستخدام IMDb ID -->
+  <!-- نموذج البحث المباشر باستخدام IMDb ID -->
   <div id="imdb-search">
     <label for="imdb">IMDb ID:</label>
     <input type="text" id="imdb" placeholder="مثل: tt1234567">
