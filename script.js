@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('searchButton');
     const titleInput = document.getElementById('title');
     const resultsDiv = document.getElementById('results');
+    const sortOptionsDiv = document.getElementById('sortOptions');
     const sortButton = document.getElementById('sortButton');
     const seasonSelect = document.getElementById('season');
     const episodeSelect = document.getElementById('episode');
@@ -43,26 +44,36 @@ document.addEventListener('DOMContentLoaded', () => {
                             .then(res => res.json())
                             .then(data => {
                                 torrentsData = data.torrents || [];
-                                displaySortedResults(torrentsData, resultsDiv); // عرض النتائج الأصلية
-                                // إنشاء خيارات ديناميكية للجودة، الترميز، والفريق
-                                populateDynamicOptions(torrentsData, 'quality', qualitySelect);
-                                populateDynamicOptions(torrentsData, 'encoding', encodingSelect);
-                                populateDynamicOptions(torrentsData, 'team', teamSelect);
+                                if (torrentsData.length > 0) {
+                                    displaySortedResults(torrentsData, resultsDiv); // عرض النتائج الأصلية
+                                    sortOptionsDiv.style.display = 'block'; // إظهار خيارات الفرز
+                                    // إنشاء خيارات ديناميكية للجودة، الترميز، والفريق
+                                    populateDynamicOptions(torrentsData, 'quality', qualitySelect);
+                                    populateDynamicOptions(torrentsData, 'encoding', encodingSelect);
+                                    populateDynamicOptions(torrentsData, 'team', teamSelect);
+                                } else {
+                                    resultsDiv.innerHTML = '<p>لا توجد تورنتات لهذا المسلسل.</p>';
+                                    sortOptionsDiv.style.display = 'none';
+                                }
                             })
                             .catch(error => {
                                 console.error('خطأ في طلب EZTV:', error);
                                 resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV.</p>';
+                                sortOptionsDiv.style.display = 'none';
                             });
                     } else {
                         resultsDiv.innerHTML = '<p>العنوان غير صحيح أو ليس مسلسل.</p>';
+                        sortOptionsDiv.style.display = 'none';
                     }
                 })
                 .catch(error => {
                     console.error('خطأ في طلب OMDb:', error);
                     resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في OMDb.</p>';
+                    sortOptionsDiv.style.display = 'none';
                 });
         } else {
             resultsDiv.innerHTML = '<p>يرجى إدخال عنوان المسلسل.</p>';
+            sortOptionsDiv.style.display = 'none';
         }
     });
 
