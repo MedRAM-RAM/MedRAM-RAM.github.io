@@ -11,6 +11,24 @@ function searchTorrents() {
       const codec = matches[7];   // "x264"
       const group = matches[8];   // "SYNCOPY"
   }
+function searchTorrents() {
+    const imdbId = document.getElementById("imdb").value;
+    const query = document.getElementById("searchQuery").value;
+
+    if (imdbId) {
+        // جلب البيانات باستخدام IMDb ID من API (مثل EZTV)
+        fetch(`https://eztv.to/api/get-torrents?imdb_id=${imdbId}`)
+            .then(response => response.json())
+            .then(data => displayResults(data.torrents));
+    } else if (query) {
+        // استخدام البحث العادي مع Regex
+        const filteredResults = torrents.filter(torrent => {
+            const matches = torrent.title.match(regex);
+            return matches && matches[1].toLowerCase().includes(query.toLowerCase());
+        });
+        displayResults(filteredResults);
+    }
+}
   alert("تم الضغط على زر البحث");
   fetch(url)
     .then(response => response.json())
