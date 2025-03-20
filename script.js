@@ -19,19 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let torrentsData = []; // لتخزين النتائج الأصلية
     let currentImdbId = null; // لتخزين معرف IMDb الحالي
     const resultsPerPage = 30; // عدد النتائج لكل صفحة
-    // دالة لتحويل الحجم من البايت إلى الوحدة المناسبة
-    // دالة لتحويل الحجم من البايت إلى الوحدة المناسبة
-    function formatFileSize(bytes) {
-        if (bytes >= 1073741824) {
-            return (bytes / 1073741824).toFixed(2) + ' GB';
-        } else if (bytes >= 1048576) {
-            return (bytes / 1048576).toFixed(2) + ' MB';
-        } else if (bytes >= 1024) {
-            return (bytes / 1024).toFixed(2) + ' KB';
-        } else {
-            return bytes + ' Bytes';
-        }
-    }
+    
     // إنشاء خيارات الموسم والحلقة من 1 إلى 30
     function populateSeasonEpisodeOptions(selectElement) {
         selectElement.innerHTML = '<option value="بدون">بدون</option>';
@@ -78,7 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
             paginationDiv.innerHTML = '';
         }
     });
-
+    // دالة لتحويل الحجم من البايت إلى الوحدة المناسبة
+    function formatFileSize(bytes) {
+        if (bytes >= 1073741824) { // أكبر من أو يساوي 1 جيجاباي
+            return (bytes / 1073741824).toFixed(2) + ' GB';
+        } else if (bytes >= 1048576) { // أكبر من أو يساوي 1 ميغابايت
+            return (bytes / 1048576).toFixed(2) + ' MB';
+        } else if (bytes >= 1024) { // أكبر من أو يساوي 1 كيلوبايت
+            return (bytes / 1024).toFixed(2) + ' KB';
+        } else {
+            return bytes + ' Bytes';
+        }
+    }        
     // دالة لجلب التورنتات بناءً على معرف IMDb ورقم الصفحة
     function fetchTorrents(imdbId, page) {
         const limit = resultsPerPage;
@@ -87,26 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 resultsDiv.innerHTML = ''; // مسح النتائج السابقة
                 console.log(data); // طباعة الاستجابة للتحقق من هيكلها
-
                 if (data.torrents && data.torrents.length > 0) {
                     torrentsData = data.torrents; // تخزين النتائج الأصلية
-                    const totalResults = data.torrents_count || torrentsData.length; // العدد الإجمالي للنتائج
+                    const totalResults = data.torrents_count || torrentsData.length; // العدد الإجمالي للنتائ ج
                     statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`; // عرض الإحصائية
-
                     // حساب عدد الصفحات
                     const totalPages = Math.ceil(totalResults / resultsPerPage);
-
                     // عرض النتائج
                     torrentsData.forEach(torrent => {
                         const torrentDiv = document.createElement('div');
                         torrentDiv.innerHTML = `
-                            <h3>${torrent.title}</h3>
-                            <p>الحجم: ${torrent.size_bytes} بايت</p>
-                            <a href="${torrent.magnet_url}">رابط المغناطيس</a>
+                        <h3>${torrent.title}</h3>
+                        <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
+                        <a href="${torrent.magnet_url}">رابط المغناطيس</a>
                         `;
                         resultsDiv.appendChild(torrentDiv);
                     });
-
                     // إنشاء أزرار الصفحات
                     paginationDiv.innerHTML = ''; // مسح الأزرار السابقة
                     for (let i = 1; i <= totalPages; i++) {
@@ -115,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         button.addEventListener('click', () => fetchTorrents(imdbId, i));
                         paginationDiv.appendChild(button);
                     }
-
                     // إظهار خيارات الفرز
                     sortOptionsDiv.style.display = 'block';
                     populateDynamicOptions(torrentsData, 'quality', qualitySelect);
