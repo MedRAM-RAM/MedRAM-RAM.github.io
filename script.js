@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('searchButton');
     const titleInput = document.getElementById('title');
     const resultsDiv = document.getElementById('results');
-    const paginationDiv = document.createElement('div'); // لعرض أزرار الصفحات
-    document.body.appendChild(paginationDiv);
+    const statsDiv = document.getElementById('stats'); // لعرض الإحصائية
+    const paginationDiv = document.getElementById('pagination'); // لعرض أزرار الصفحات
 
     let currentImdbId = null; // لتخزين معرف IMDb الحالي
+    const resultsPerPage = 30; // عدد النتائج لكل صفحة
 
     searchButton.addEventListener('click', () => {
         const title = titleInput.value.trim();
@@ -17,18 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     if (data.Response === 'True' && data.Type === 'series') {
                         currentImdbId = data.imdbID.replace('tt', ''); // إزالة "tt" للحصول على الرقم
-                        paginationDiv.innerHTML = ''; // مسح الأزرار السابقة
-                        // إنشاء أزرار الصفحات من 1 إلى 10
-                        for (let i = 1; i <= 10; i++) {
-                            const button = document.createElement('button');
-                            button.textContent = `الصفحة ${i}`;
-                            button.addEventListener('click', () => {
-                                fetchTorrents(currentImdbId, i);
-                            });
-                            paginationDiv.appendChild(button);
-                        }
-                        // جلب الصفحة الأولى افتراضياً
-                        fetchTorrents(currentImdbId, 1);
+                        fetchTorrents(currentImdbId, 1); // جلب الصفحة الأولى
                     } else {
                         resultsDiv.innerHTML = '<p>العنوان غير صحيح أو ليس مسلسل.</p>';
                     }
@@ -44,12 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // دالة لجلب التورنتات بناءً على معرف IMDb ورقم الصفحة
     function fetchTorrents(imdbId, page) {
-        const limit = 100;
+        const limit = resultsPerPage;
         fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=${limit}&page=${page}`)
             .then(res => res.json())
             .then(torrentsData => {
-                resultsDiv.innerHTML = '';
+                resultsDiv.innerHTML = ''; // مسح النتائج السابقة
                 if (torrentsData.torrents && torrentsData.torrents.length > 0) {
+                    // عرض الإحصائية
+                    const totalResults = torrentsData.torrents_count; // عدد النتائج الإجمالي
+                    statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
+
+                    // حساب عدد الصفحات
+                    const totalPages = Math.ceil(totalResults / resultsPerPage);
+
+                    // عرض النتائج
                     torrentsData.torrents.forEach(torrent => {
                         const torrentDiv = document.createElement('div');
                         torrentDiv.innerHTML = `
@@ -59,8 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         `;
                         resultsDiv.appendChild(torrentDiv);
                     });
+
+                    // إنشاء أزرار الصفحات
+                    paginationDiv.innerHTML = ''; // مسح الأزرار السابقة
+                    for (let i = 1; i <= totalPages; i++) {
+                        const button = document.createElement('button');
+                        button.textContent = `الصفحة ${i}`;
+                        button.addEventListener('click', () => {
+                            fetchTorrents(currentImdbId, i);
+                        });
+                        paginationDiv.appendChild(button);
+                    }
                 } else {
-                    resultsDiv.innerHTML = '<p>لا توجد تورنتات في هذه الصفحة.</p>';
+                    resultsDiv.innerHTML = '<p>لا توجد تورنتات لهذا المسلسل.</p>';
                 }
             })
             .catch(error => {
