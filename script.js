@@ -1,7 +1,16 @@
 function searchTorrents() {
-  const title = document.getElementById('title').value;
-  const quality = document.getElementById('quality').value;
+  const regex = /^(.+?)\s+S(\d+)E(\d+)?\s+(.*?)(480p|720p|1080p)\s+(.*?)(xvid|x264|x265|H\.?264)?(?:-|\s)([A-Za-z0-9]+)?(?:\s*\[eztv\])?$/;
   const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?limit=10&page=1`;
+  const title = "Shifting Gears S01E10 720p HDTV x264-SYNCOPY [eztv]";
+  const matches = title.match(regex);
+  if (matches) {
+      const showName = matches[1]; // "Shifting Gears"
+      const season = matches[2];  // "01"
+      const episode = matches[3]; // "10"
+      const quality = matches[5]; // "720p"
+      const codec = matches[7];   // "x264"
+      const group = matches[8];   // "SYNCOPY"
+  }
   alert("تم الضغط على زر البحث");
   fetch(url)
     .then(response => response.json())
