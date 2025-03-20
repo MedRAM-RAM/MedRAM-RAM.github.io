@@ -1,6 +1,6 @@
 // دالة للحصول على IMDb ID باستخدام OMDb API
 async function getImdbIdFromTitle(title) {
-  const apiKey = 'your_api_key'; // استبدل بمفتاحك الخاص من OMDb
+  const apiKey = '9b8d2c00'; // استبدل بمفتاحك الخاص من OMDb
   const response = await fetch(`http://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${apiKey}`);
   const data = await response.json();
   return data.imdbID || null;
