@@ -5,30 +5,43 @@
   <title>فهرسة تورنتات EZTV</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
-    #search, #imdb-search { margin-bottom: 20px; }
+    #search, #imdb-search, #title-search { margin-bottom: 20px; }
     #results div { margin: 10px 0; }
-    label, input, select { margin: 5px; }
+    label, input, button { margin: 5px; }
   </style>
 </head>
 <body>
   <h1>فهرسة تورنتات EZTV</h1>
   
-  <!-- نموذج البحث باستخدام العنوان -->
-  <div id="search">
-    <label for="title">اسم المسلسل:</label>
-    <input type="text" id="title" placeholder="مثل: Breaking Bad">
-    <button onclick="searchTorrents()">بحث</button>
-  </div>
-  
   <!-- نموذج البحث باستخدام IMDb ID -->
   <div id="imdb-search">
     <label for="imdb">IMDb ID:</label>
-    <input type="text" id="imdb" placeholder="مثل: tt0903747">
-    <button onclick="searchByImdb()">بحث باستخدام IMDb</button>
+    <input type="text" id="imdb" placeholder="مثل: 0903747">
+    <button onclick="searchByImdb()">بحث باستخدام IMDb ID</button>
+  </div>
+  
+  <!-- نموذج البحث باستخدام العنوان -->
+  <div id="title-search">
+    <label for="title">اسم المسلسل:</label>
+    <input type="text" id="title" placeholder="مثل: Breaking Bad">
+    <button onclick="searchByTitle()">بحث باستخدام العنوان</button>
+  </div>
+  
+  <!-- نموذج تحويل العنوان إلى IMDb ID ثم البحث -->
+  <div id="title-to-imdb-search">
+    <label for="title-to-imdb">اسم المسلسل لتحويله إلى IMDb ID:</label>
+    <input type="text" id="title-to-imdb" placeholder="مثل: The Matrix">
+    <button onclick="searchByTitleToImdb()">تحويل العنوان إلى IMDb ID ثم البحث</button>
   </div>
   
   <div id="results"></div>
   <p>تحذير: قم بالتنزيل على مسؤوليتك الخاصة.</p>
   <script src="script.js"></script>
+</body>
+<head>
+  <title>EZTV Search</title>
+</head>
+<body>
+  <script src="search.js"></script>
 </body>
 </html>
