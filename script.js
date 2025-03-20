@@ -1,15 +1,21 @@
+// script.js
+
 const omdbApiKey = '9b8d2c00'; // استبدل بمفتاح API الخاص بك من OMDb
 
 document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('searchButton');
     const titleInput = document.getElementById('title');
     const resultsDiv = document.getElementById('results');
-    const statsDiv = document.getElementById('stats'); // لعرض الإحصائية
-    const paginationDiv = document.getElementById('pagination'); // لعرض أزرار الصفحات
+    const sortButton = document.getElementById('sortButton');
+    const seasonInput = document.getElementById('season');
+    const episodeInput = document.getElementById('episode');
+    const qualityInput = document.getElementById('quality');
+    const encodingInput = document.getElementById('encoding');
+    const teamInput = document.getElementById('team');
 
-    let currentImdbId = null; // لتخزين معرف IMDb الحالي
-    const resultsPerPage = 30; // عدد النتائج لكل صفحة
+    let torrentsData = []; // لتخزين النتائج الأصلية
 
+    // حدث البحث
     searchButton.addEventListener('click', () => {
         const title = titleInput.value.trim();
         if (title) {
@@ -17,8 +23,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                     if (data.Response === 'True' && data.Type === 'series') {
-                        currentImdbId = data.imdbID.replace('tt', ''); // إزالة "tt" للحصول على الرقم
-                        fetchTorrents(currentImdbId, 1); // جلب الصفحة الأولى
+                        const imdbId = data.imdbID.replace('tt', ''); // إزالة "tt" من معرف IMDb
+                        fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                torrentsData = data.torrents || [];
+                                displaySortedResults(torrentsData, resultsDiv); // عرض النتائج الأصلية
+                            })
+                            .catch(error => {
+                                console.error('خطأ في طلب EZTV:', error);
+                                resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV. يرجى المحاولة لاحقًا.</p>';
+                            });
                     } else {
                         resultsDiv.innerHTML = '<p>العنوان غير صحيح أو ليس مسلسل.</p>';
                     }
@@ -32,6 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // حدث الفرز
+    sortButton.addEventListener('click', () => {
+        const season = seasonInput.value.trim();
+        const episode = episodeInput.value.trim();
+        const quality = qualityInput.value.trim();
+        const encoding = encodingInput.value.trim();
+        const team = teamInput.value.trim();
+
+        const sortedResults = sortResults(torrentsData, season, episode, quality, encoding, team);
+        displaySortedResults(sortedResults, resultsDiv);
+    });
+});
     // دالة لجلب التورنتات بناءً على معرف IMDb ورقم الصفحة
     function fetchTorrents(imdbId, page) {
         const limit = resultsPerPage;
