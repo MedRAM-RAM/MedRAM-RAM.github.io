@@ -7,13 +7,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleInput = document.getElementById('title');
     const resultsDiv = document.getElementById('results');
     const sortButton = document.getElementById('sortButton');
-    const seasonInput = document.getElementById('season');
-    const episodeInput = document.getElementById('episode');
-    const qualityInput = document.getElementById('quality');
-    const encodingInput = document.getElementById('encoding');
-    const teamInput = document.getElementById('team');
+    const seasonSelect = document.getElementById('season');
+    const episodeSelect = document.getElementById('episode');
+    const qualitySelect = document.getElementById('quality');
+    const encodingSelect = document.getElementById('encoding');
+    const teamSelect = document.getElementById('team');
 
     let torrentsData = []; // لتخزين النتائج الأصلية
+
+    // إنشاء خيارات الموسم والحلقة من 1 إلى 30
+    function populateSeasonEpisodeOptions(selectElement) {
+        selectElement.innerHTML = '<option value="بدون">بدون</option>';
+        for (let i = 1; i <= 30; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            selectElement.appendChild(option);
+        }
+    }
+
+    // تهيئة خيارات الموسم والحلقة عند تحميل الصفحة
+    populateSeasonEpisodeOptions(seasonSelect);
+    populateSeasonEpisodeOptions(episodeSelect);
 
     // حدث البحث
     searchButton.addEventListener('click', () => {
@@ -23,16 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                     if (data.Response === 'True' && data.Type === 'series') {
-                        const imdbId = data.imdbID.replace('tt', ''); // إزالة "tt" من معرف IMDb
+                        const imdbId = data.imdbID.replace('tt', '');
                         fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}`)
                             .then(res => res.json())
                             .then(data => {
                                 torrentsData = data.torrents || [];
                                 displaySortedResults(torrentsData, resultsDiv); // عرض النتائج الأصلية
+                                // إنشاء خيارات ديناميكية للجودة، الترميز، والفريق
+                                populateDynamicOptions(torrentsData, 'quality', qualitySelect);
+                                populateDynamicOptions(torrentsData, 'encoding', encodingSelect);
+                                populateDynamicOptions(torrentsData, 'team', teamSelect);
                             })
                             .catch(error => {
                                 console.error('خطأ في طلب EZTV:', error);
-                                resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV. يرجى المحاولة لاحقًا.</p>';
+                                resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV.</p>';
                             });
                     } else {
                         resultsDiv.innerHTML = '<p>العنوان غير صحيح أو ليس مسلسل.</p>';
@@ -40,20 +59,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(error => {
                     console.error('خطأ في طلب OMDb:', error);
-                    resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في OMDb. يرجى المحاولة لاحقًا.</p>';
+                    resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في OMDb.</p>';
                 });
         } else {
             resultsDiv.innerHTML = '<p>يرجى إدخال عنوان المسلسل.</p>';
         }
     });
 
+    // دالة لإنشاء خيارات ديناميكية للجودة، الترميز، والفريق
+    function populateDynamicOptions(results, type, selectElement) {
+        const options = createDynamicOptions(results, type);
+        selectElement.innerHTML = '<option value="بدون">بدون</option>';
+        options.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = option;
+            selectElement.appendChild(optionElement);
+        });
+    }
+
     // حدث الفرز
     sortButton.addEventListener('click', () => {
-        const season = seasonInput.value.trim();
-        const episode = episodeInput.value.trim();
-        const quality = qualityInput.value.trim();
-        const encoding = encodingInput.value.trim();
-        const team = teamInput.value.trim();
+        const season = seasonSelect.value;
+        const episode = episodeSelect.value;
+        const quality = qualitySelect.value;
+        const encoding = encodingSelect.value;
+        const team = teamSelect.value;
 
         const sortedResults = sortResults(torrentsData, season, episode, quality, encoding, team);
         displaySortedResults(sortedResults, resultsDiv);
