@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchButton.addEventListener('click', () => {
         const title = titleInput.value.trim();
         if (title) {
-            fetch(`http://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${omdbApiKey}`)
+            fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${omdbApiKey}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.Response === 'True' && data.Type === 'series') {
