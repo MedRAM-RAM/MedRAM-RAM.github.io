@@ -7,7 +7,7 @@ function searchTorrents() {
   const quality = document.getElementById('quality').value;
   const codec = document.getElementById('codec').value;
   const group = document.getElementById('group').value;
-  const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?limit=10&page=1`;
+  const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?limit=100&page=1`;
 
   fetch(url)
     .then(response => response.json())
