@@ -1,99 +1,35 @@
-// عنوان وسيط CORS (قد تحتاج إلى تفعيله من https://cors-anywhere.herokuapp.com/corsdemo)
-const corsProxy = 'https://cors-anywhere.herokuapp.com/';
-const eztvApi = 'https://eztvx.to/api/get-torrents';
-const omdbApi = 'http://www.omdbapi.com/?apikey=9b8d2c00'; // استبدل بمفتاح OMDb API الخاص بك
+document.addEventListener('DOMContentLoaded', () => {
+    const searchButton = document.getElementById('searchButton');
+    const imdbIdInput = document.getElementById('imdbId');
+    const resultsDiv = document.getElementById('results');
 
-// دالة مساعدة لإرسال طلبات fetch مع معالجة CORS
-async function fetchWithCors(url) {
-  try {
-    const response = await fetch(`${corsProxy}${url}`, {
-      headers: {
-        'x-requested-with': 'XMLHttpRequest'
-      }
+    searchButton.addEventListener('click', () => {
+        const imdbId = imdbIdInput.value.trim();
+        if (imdbId) {
+            fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultsDiv.innerHTML = ''; // مسح النتائج السابقة
+                    if (data.torrents && data.torrents.length > 0) {
+                        data.torrents.forEach(torrent => {
+                            const torrentDiv = document.createElement('div');
+                            torrentDiv.innerHTML = `
+                                <h3>${torrent.title}</h3>
+                                <p>الحجم: ${torrent.size_bytes} بايت</p>
+                                <a href="${torrent.magnet_url}">رابط المغناطيس</a>
+                            `;
+                            resultsDiv.appendChild(torrentDiv);
+                        });
+                    } else {
+                        resultsDiv.innerHTML = '<p>لا توجد نتائج لهذا المعرف.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('خطأ:', error);
+                    resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث. يرجى المحاولة لاحقًا.</p>';
+                });
+        } else {
+            resultsDiv.innerHTML = '<p>يرجى إدخال معرف IMDb صالح.</p>';
+        }
     });
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    console.error('خطأ في الطلب:', error);
-    alert('حدث خطأ أثناء البحث، تحقق من الاتصال');
-    return null;
-  }
-}
-
-// 1. البحث باستخدام IMDb ID
-async function searchByImdb() {
-  const imdbId = document.getElementById('imdb').value;
-  if (!imdbId) {
-    alert('يرجى إدخال IMDb ID');
-    return;
-  }
-
-  const url = `${eztvApi}?imdb_id=${imdbId}&limit=10&page=1`;
-  const data = await fetchWithCors(url);
-  if (data && data.torrents) {
-    displayTorrents(data.torrents);
-  } else {
-    alert('لم يتم العثور على تورنتات لهذا الـ ID');
-  }
-}
-
-// 2. البحث باستخدام العنوان (تحويل العنوان إلى IMDb ID أولاً)
-async function searchByTitle() {
-  const title = document.getElementById('title').value;
-  if (!title) {
-    alert('يرجى إدخال عنوان');
-    return;
-  }
-
-  const omdbUrl = `${omdbApi}&t=${encodeURIComponent(title)}`;
-  const omdbData = await fetch(omdbUrl).then(res => res.json());
-  
-  if (omdbData.Response === 'True') {
-    const imdbId = omdbData.imdbID.replace('tt', ''); // إزالة "tt" من المعرف
-    const url = `${eztvApi}?imdb_id=${imdbId}&limit=10&page=1`;
-    const data = await fetchWithCors(url);
-    if (data && data.torrents) {
-      displayTorrents(data.torrents);
-    } else {
-      alert('لم يتم العثور على تورنتات لهذا العنوان');
-    }
-  } else {
-    alert('لم يتم العثور على العنوان');
-  }
-}
-
-// 3. تحويل العنوان إلى IMDb ID ثم البحث
-async function searchByTitleToImdb() {
-  const title = document.getElementById('title-to-imdb').value;
-  if (!title) {
-    alert('يرجى إدخال عنوان');
-    return;
-  }
-
-  const omdbUrl = `${omdbApi}&t=${encodeURIComponent(title)}`;
-  const omdbData = await fetch(omdbUrl).then(res => res.json());
-  
-  if (omdbData.Response === 'True') {
-    const imdbId = omdbData.imdbID.replace('tt', '');
-    const url = `${eztvApi}?imdb_id=${imdbId}&limit=10&page=1`;
-    const data = await fetchWithCors(url);
-    if (data && data.torrents) {
-      displayTorrents(data.torrents);
-    } else {
-      alert('لم يتم العثور على تورنتات لهذا العنوان');
-    }
-  } else {
-    alert('لم يتم العثور على العنوان');
-  }
-}
-
-// دالة لعرض النتائج
-function displayTorrents(torrents) {
-  const resultsDiv = document.getElementById('results');
-  resultsDiv.innerHTML = '';
-  torrents.forEach(torrent => {
-    const torrentElement = document.createElement('div');
-    torrentElement.innerHTML = `<a href="${torrent.magnet_url}">${torrent.title}</a>`;
-    resultsDiv.appendChild(torrentElement);
-  });
-}
+});
