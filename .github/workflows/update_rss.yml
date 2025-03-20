@@ -1,0 +1,26 @@
+name: Update RSS Feed
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # يعمل يوميًا عند منتصف الليل UTC
+
+jobs:
+  update_rss:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Generate RSS
+        run: node generate_rss.js
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add feed.xml
+          git commit -m "تحديث ملف RSS"
+          git push
