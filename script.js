@@ -198,3 +198,14 @@ function fetchTorrents(imdbId, page) {
             resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV. يرجى المحاولة لاحقًا.</p>';
         });
 }
+function formatFileSize(bytes) {
+    if (bytes >= 1073741824) { // أكبر من أو يساوي 1 جيجابايت
+        return (bytes / 1073741824).toFixed(2) + ' GB';
+    } else if (bytes >= 1048576) { // أكبر من أو يساوي 1 ميغابايت
+        return (bytes / 1048576).toFixed(2) + ' MB';
+    } else if (bytes >= 1024) { // أكبر من أو يساوي 1 كيلوبايت
+        return (bytes / 1024).toFixed(2) + ' KB';
+    } else {
+        return bytes + ' Bytes';
+    }
+}
