@@ -2,13 +2,34 @@
 const regex = /^(.+?)\s+S(\d+)E(\d+)?\s+(.*?)(480p|720p|1080p)\s+(.*?)(xvid|x264|x265|H\.?264)?(?:-|\s)([A-Za-z0-9]+)?(?:\s*\[eztv\])?$/;
 
 // دالة البحث العادي
-function searchTorrents() {
-  const title = document.getElementById('title').value.toLowerCase();
+async function getImdbIdFromTitle(title) {
+  const apiKey = '9b8d2c00'; // استبدل بمفتاحك
+  const response = await fetch(`http://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${apiKey}`);
+  const data = await response.json();
+  return data.imdbID || null;
+}
+async function searchTorrents() {
+  const title = document.getElementById('title').value;
+  if (!title) {
+    alert('يرجى إدخال عنوان');
+    return;
+  }
+  const imdbId = await getImdbIdFromTitle(title);
+  if (imdbId) {
+    const url = `https://eztvx.to/api/get-torrents?imdb_id=${imdbId}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => displayTorrents(data.torrents))
+      .catch(error => console.error('خطأ:', error));
   const quality = document.getElementById('quality').value;
   const codec = document.getElementById('codec').value;
   const group = document.getElementById('group').value;
   const url = `https://cors-anywhere.herokuapp.com/https://eztvx.to/api/get-torrents?limit=100&page=1`;
-
+  }
+  else {
+    alert('لم يتم العثور على IMDb ID لهذا العنوان');
+  }
+}
   fetch(url)
     .then(response => response.json())
     .then(data => {
