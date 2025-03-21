@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('searchButton');
     const titleInput = document.getElementById('title');
     const resultsDiv = document.getElementById('results');
-    const statsDiv = document.getElementById('stats'); // لعرض عدد النتائج الإجمالي
-    const paginationDiv = document.getElementById('pagination'); // لعرض أزرار الصفحات
+    const statsDiv = document.getElementById('stats');
+    const paginationDiv = document.getElementById('pagination');
     const sortOptionsDiv = document.getElementById('sortOptions');
     const sortButton = document.getElementById('sortButton');
     const seasonSelect = document.getElementById('season');
@@ -16,20 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const encodingSelect = document.getElementById('encoding');
     const teamSelect = document.getElementById('team');
 
-    let torrentsData = []; // لتخزين النتائج الأصلية
-    let currentImdbId = null; // لتخزين معرف IMDb الحالي
-    const resultsPerPage = 30; // عدد النتائج لكل صفحة
-    
-    // إنشاء خيارات الموسم والحلقة من 1 إلى 30
-    function populateSeasonEpisodeOptions(selectElement) {
-        selectElement.innerHTML = '<option value="بدون">بدون</option>';
-        for (let i = 1; i <= 30; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = i;
-            selectElement.appendChild(option);
+    let torrentsData = [];
+    let currentImdbId = null;
+    const resultsPerPage = 30;
+
+    // دالة لتحويل الحجم من البايت إلى الوحدة المناسبة
+    function formatFileSize(bytes) {
+        if (bytes >= 1073741824) {
+            return (bytes / 1073741824).toFixed(2) + ' GB';
+        } else if (bytes >= 1048576) {
+            return (bytes / 1048576).toFixed(2) + ' MB';
+        } else if (bytes >= 1024) {
+            return (bytes / 1024).toFixed(2) + ' KB';
+        } else {
+            return bytes + ' Bytes';
         }
     }
+
     // دالة لتحليل عنوان التورنت
     function parseTorrentTitle(title) {
         title = title.replace(/EZTV/gi, '').trim();
@@ -49,11 +52,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return null;
     }
 
-    // تهيئة خيارات الموسم والحلقة عند تحميل الصفحة
+    // إنشاء خيارات الموسم والحلقة من 1 إلى 30
+    function populateSeasonEpisodeOptions(selectElement) {
+        selectElement.innerHTML = '<option value="بدون">بدون</option>';
+        for (let i = 1; i <= 30; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            selectElement.appendChild(option);
+        }
+    }
+
     populateSeasonEpisodeOptions(seasonSelect);
     populateSeasonEpisodeOptions(episodeSelect);
 
-    // حدث البحث
     searchButton.addEventListener('click', () => {
         const title = titleInput.value.trim();
         if (title) {
@@ -61,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                     if (data.Response === 'True' && data.Type === 'series') {
-                        currentImdbId = data.imdbID.replace('tt', ''); // إزالة "tt" من معرف IMDb
-                        fetchTorrents(currentImdbId, 1); // جلب الصفحة الأولى
+                        currentImdbId = data.imdbID.replace('tt', '');
+                        fetchTorrents(currentImdbId, 1);
                     } else {
                         resultsDiv.innerHTML = '<p>العنوان غير صحيح أو ليس مسلسل.</p>';
                         sortOptionsDiv.style.display = 'none';
@@ -84,54 +96,49 @@ document.addEventListener('DOMContentLoaded', () => {
             paginationDiv.innerHTML = '';
         }
     });
-    // دالة لتحويل الحجم من البايت إلى الوحدة المناسبة
-    function formatFileSize(bytes) {
-        if (bytes >= 1073741824) { // أكبر من أو يساوي 1 جيجاباي
-            return (bytes / 1073741824).toFixed(2) + ' GB';
-        } else if (bytes >= 1048576) { // أكبر من أو يساوي 1 ميغابايت
-            return (bytes / 1048576).toFixed(2) + ' MB';
-        } else if (bytes >= 1024) { // أكبر من أو يساوي 1 كيلوبايت
-            return (bytes / 1024).toFixed(2) + ' KB';
-        } else {
-            return bytes + ' Bytes';
-        }
-    }        
+
     // دالة لجلب التورنتات بناءً على معرف IMDb ورقم الصفحة
     function fetchTorrents(imdbId, page) {
         const limit = resultsPerPage;
         fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=${limit}&page=${page}`)
             .then(res => res.json())
             .then(data => {
-                resultsDiv.innerHTML = ''; // مسح النتائج السابقة
-                console.log(data); // طباعة الاستجابة للتحقق من هيكلها
+                resultsDiv.innerHTML = '';
+                console.log(data);
+
                 if (data.torrents && data.torrents.length > 0) {
-                    torrentsData = data.torrents; // تخزين النتائج الأصلية
-                    const totalResults = data.torrents_count || torrentsData.length; // العدد الإجمالي للنتائ ج
-                    statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`; // عرض الإحصائية
-                    // حساب عدد الصفحات
+                    torrentsData = data.torrents;
+                    const totalResults = data.torrents_count || torrentsData.length;
+                    statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
+
                     const totalPages = Math.ceil(totalResults / resultsPerPage);
-                    // عرض النتائج
+
                     torrentsData.forEach(torrent => {
-                        const torrentDiv = document.createElement('div');
-                        torrentDiv.innerHTML = `
-                        <h3>${torrent.title}</h3>
-                        <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
-                        <a href="${torrent.magnet_url}">
-                        <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                        تحميل
-                        </a>
-                        `;
-                        resultsDiv.appendChild(torrentDiv);
+                        const parsed = parseTorrentTitle(torrent.title);
+                        if (parsed) {
+                            const torrentDiv = document.createElement('div');
+                            torrentDiv.innerHTML = `
+                                <h3>${parsed.showName} <span style="font-size: 0.8em;">S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}</span></h3>
+                                ${parsed.episodeTitle ? `<p>${parsed.episodeTitle}</p>` : ''}
+                                <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
+                                <a href="${torrent.magnet_url}">
+                                    <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                                    تحميل
+                                </a>
+                                <span>${[parsed.quality, parsed.encoding, parsed.team].filter(Boolean).join(' | ')}</span>
+                            `;
+                            resultsDiv.appendChild(torrentDiv);
+                        }
                     });
-                    // إنشاء أزرار الصفحات
-                    paginationDiv.innerHTML = ''; // مسح الأزرار السابقة
+
+                    paginationDiv.innerHTML = '';
                     for (let i = 1; i <= totalPages; i++) {
                         const button = document.createElement('button');
                         button.textContent = `الصفحة ${i}`;
                         button.addEventListener('click', () => fetchTorrents(imdbId, i));
                         paginationDiv.appendChild(button);
                     }
-                    // إظهار خيارات الفرز
+
                     sortOptionsDiv.style.display = 'block';
                     populateDynamicOptions(torrentsData, 'quality', qualitySelect);
                     populateDynamicOptions(torrentsData, 'encoding', encodingSelect);
@@ -152,15 +159,21 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // دالة لإنشاء خيارات ديناميكية للجودة، الترميز، والفريق
+    // دالة لإنشاء خيارات ديناميكية
     function populateDynamicOptions(results, type, selectElement) {
-        const options = createDynamicOptions(results, type);
+        const values = results
+            .map(torrent => {
+                const parsed = parseTorrentTitle(torrent.title);
+                return parsed ? parsed[type] : null;
+            })
+            .filter(value => value && value !== '');
+        const uniqueValues = [...new Set(values)];
         selectElement.innerHTML = '<option value="بدون">بدون</option>';
-        options.forEach(option => {
-            const optionElement = document.createElement('option');
-            optionElement.value = option;
-            optionElement.textContent = option;
-            selectElement.appendChild(optionElement);
+        uniqueValues.forEach(value => {
+            const option = document.createElement('option');
+            option.value = value;
+            option.textContent = value;
+            selectElement.appendChild(option);
         });
     }
 
