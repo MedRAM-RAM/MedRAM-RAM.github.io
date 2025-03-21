@@ -109,7 +109,7 @@ main {
 
 /* تنسيق الجزء السفلي (Footer) */
 footer {
-    position: fixed;
+    position: relative; /* تغيير من fixed إلى relative */
     bottom: 0;
     left: 0;
     width: 100%;
