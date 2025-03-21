@@ -100,23 +100,28 @@ main {
     color: #003366;
 }
 
+/* تنسيق قسم النتائج */
 #results {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: column; /* ترتيب النتائج رأسيًا */
+    align-items: center; /* محاذاة النتائج في المنتصف أفقيًا */
+    gap: 20px; /* مسافة بين كل نتيجة */
+    margin: 20px 0; /* هامش علوي وسفلي */
 }
 
+/* تنسيق كل نتيجة */
 #results div {
     background-color: #FFFFFF;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
     padding: 20px;
-    width: 300px;
+    width: 80%; /* عرض النتيجة */
+    max-width: 600px; /* الحد الأقصى للعرض */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    transition: transform 0.3s; /* تأثير حركي اختياري */
 }
 
+/* تأثير عند التمرير بالماوس */
 #results div:hover {
     transform: translateY(-5px);
 }
