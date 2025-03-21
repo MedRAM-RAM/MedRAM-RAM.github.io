@@ -4,45 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فهرسة تورنتات EZTV</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
     <script src="sort.js" defer></script>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>فهرسة تورنتات EZTV</h1>
-    <input type="text" id="title" placeholder="أدخل عنوان المسلسل">
-    <button id="searchButton">بحث</button>
-    <div id="sortOptions" style="display: none;">
-        <h3>فرز النتائج</h3>
-        <label for="season">رقم الموسم:</label>
-        <select id="season">
-            <option value="بدون">بدون</option>
-            <!-- سيتم إضافة خيارات من 1 إلى 30 ديناميكيًا -->
-        </select>
-        <label for="episode">رقم الحلقة:</label>
-        <select id="episode">
-            <option value="بدون">بدون</option>
-            <!-- سيتم إضافة خيارات من 1 إلى 30 ديناميكيًا -->
-        </select>
-        <label for="quality">الجودة:</label>
-        <select id="quality">
-            <option value="بدون">بدون</option>
-        </select>
-        <label for="encoding">الترميز:</label>
-        <select id="encoding">
-            <option value="بدون">بدون</option>
-        </select>
-        <label for="team">الفريق:</label>
-        <select id="team">
-            <option value="بدون">بدون</option>
-        </select>
-        <button id="sortButton">فرز</button>
-    </div>
-    <div id="stats"></div> <!-- لعرض عدد النتائج الإجمالي -->
-    <div id="results"></div>
-    <div id="pagination"></div> <!-- لعرض أزرار الصفحات -->
-    <div id="disclaimer" style="background-color: #f8d7da; padding: 10px; margin: 10px 0; border: 1px solid #f5c6cb; color: #721c24; text-align: center;">
-    <p>تحذير: هذا الموقع لا يستضيف أي محتوى محمي بحقوق الطبع والنشر. جميع الروابط المقدمة هي من مصادر خارجية، ونحن لا نتحمل أي مسؤولية عن المحتوى أو استخدامه. المستخدمون مسؤولون عن الامتثال لجميع القوانين المحلية والدولية المتعلقة بحقوق الطبع والنشر.</p>
-    </div>
+    <!-- الجزء العلوي الثابت -->
+    <header>
+        <h1>فهرسة تورنتات EZTV</h1>
+        <div id="searchForm">
+            <input type="text" id="title" placeholder="أدخل عنوان المسلسل">
+            <button id="searchButton">بحث</button>
+        </div>
+        <div id="sortOptions" style="display: none;">
+            <h3>فرز النتائج</h3>
+            <label for="season">رقم الموسم:</label>
+            <select id="season">
+                <option value="بدون">بدون</option>
+            </select>
+            <label for="episode">رقم الحلقة:</label>
+            <select id="episode">
+                <option value="بدون">بدون</option>
+            </select>
+            <label for="quality">الجودة:</label>
+            <select id="quality">
+                <option value="بدون">بدون</option>
+            </select>
+            <label for="encoding">الترميز:</label>
+            <select id="encoding">
+                <option value="بدون">بدون</option>
+            </select>
+            <label for="team">الفريق:</label>
+            <select id="team">
+                <option value="بدون">بدون</option>
+            </select>
+            <button id="sortButton">فرز</button>
+        </div>
+    </header>
+
+    <!-- الجزء الرئيسي لعرض النتائج -->
+    <main>
+        <div id="results"></div>
+    </main>
+
+    <!-- الجزء السفلي الثابت -->
+    <footer>
+        <div id="pagination"></div>
+        <div id="disclaimer">
+            <p>تحذير: هذا الموقع لا يستضيف أي محتوى محمي بحقوق الطبع والنشر. جميع الروابط المقدمة هي من مصادر خارجية، ونحن لا نتحمل أي مسؤولية عن المحتوى أو استخدامه. المستخدمون مسؤولون عن الامتثال لجميع القوانين المحلية والدولية المتعلقة بحقوق الطبع والنشر.</p>
+        </div>
+    </footer>
 </body>
 </html>
