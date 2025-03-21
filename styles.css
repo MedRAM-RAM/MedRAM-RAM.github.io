@@ -140,7 +140,11 @@ footer {
     background-color: #003366;
 }
 
-#disclaimer p {
-    font-size: 1.2rem;
-    color: #FFCCCC;
+#disclaimer {
+    padding: 10px; /* تصغير حجم المربع */
+    font-size: 0.8rem; /* تصغير حجم الخط */
+    background-color: #003366; /* لون الخلفية */
+    color: #FFCCCC; /* لون النص */
+    border-radius: 5px; /* إضافة حواف دائرية */
+    margin-top: 10px; /* إضافة مساحة علوية */
 }
