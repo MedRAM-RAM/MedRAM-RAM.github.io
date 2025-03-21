@@ -11,20 +11,16 @@ body {
     background-color: #FFFFFF;
     color: #333333;
     line-height: 1.6;
+    padding: 20px;
 }
 
-/* تنسيق الجزء العلوي (Header) */
+/* تنسيق المقدمة (Header) */
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
     background-color: #003366;
     color: #FFFFFF;
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
 }
 
 header h1 {
@@ -92,12 +88,16 @@ header h1 {
     background-color: #003366;
 }
 
-/* تنسيق الجزء الرئيسي (Main Content) */
+/* تنسيق الوسط (Main Content) */
 main {
-    margin-top: 200px; /* مساحة للجزء العلوي الثابت */
-    margin-bottom: 100px; /* مساحة للجزء السفلي الثابت */
-    padding: 20px;
-    min-height: calc(100vh - 300px); /* لضمان أن يكون الجزء الرئيسي مرئيًا */
+    margin: 20px 0;
+}
+
+#stats {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: #003366;
 }
 
 #results {
@@ -107,18 +107,27 @@ main {
     gap: 20px;
 }
 
-/* تنسيق الجزء السفلي (Footer) */
+#results div {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+#results div:hover {
+    transform: translateY(-5px);
+}
+
+/* تنسيق الذيل (Footer) */
 footer {
-    position: relative; /* تغيير من fixed إلى relative */
-    bottom: 0;
-    left: 0;
-    width: 100%;
     background-color: #003366;
     color: #FFFFFF;
     padding: 20px;
     text-align: center;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
 }
 
 #pagination {
@@ -140,11 +149,7 @@ footer {
     background-color: #003366;
 }
 
-#disclaimer {
-    padding: 10px; /* تصغير حجم المربع */
-    font-size: 0.8rem; /* تصغير حجم الخط */
-    background-color: #003366; /* لون الخلفية */
-    color: #FFCCCC; /* لون النص */
-    border-radius: 5px; /* إضافة حواف دائرية */
-    margin-top: 10px; /* إضافة مساحة علوية */
+#disclaimer p {
+    font-size: 1.2rem;
+    color: #FFCCCC;
 }
