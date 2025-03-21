@@ -30,6 +30,24 @@ document.addEventListener('DOMContentLoaded', () => {
             selectElement.appendChild(option);
         }
     }
+    // دالة لتحليل عنوان التورنت
+    function parseTorrentTitle(title) {
+        title = title.replace(/EZTV/gi, '').trim();
+        const regex = /^(.*?)\s*S(\d{1,2})E(\d{1,2})\s*(.*?)\s*(\d{3,4}p)?\s*(\w+)?\s*(\w+)?$/i;
+        const match = title.match(regex);
+        if (match) {
+            return {
+                showName: match[1].trim(),
+                season: parseInt(match[2], 10),
+                episode: parseInt(match[3], 10),
+                episodeTitle: match[4] ? match[4].trim() : '',
+                quality: match[5] ? match[5].trim() : '',
+                encoding: match[6] ? match[6].trim() : '',
+                team: match[7] ? match[7].trim() : ''
+            };
+        }
+        return null;
+    }
 
     // تهيئة خيارات الموسم والحلقة عند تحميل الصفحة
     populateSeasonEpisodeOptions(seasonSelect);
