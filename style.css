@@ -1,1 +1,184 @@
-<link rel="stylesheet" href="style.css">
+/* إعادة تعيين الإعدادات الافتراضية لضمان التوافق */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* تنسيق الجسم الرئيسي للموقع */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF;
+    color: #333333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* تنسيق شريط العنوان (Header) */
+header {
+    background-color: #003366;
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* تنسيق نموذج البحث */
+#searchForm {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#title {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    background-color: #336699;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#searchButton:hover {
+    background-color: #003366;
+}
+
+/* تنسيق قسم النتائج */
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+#results div {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+#results div:hover {
+    transform: translateY(-5px);
+}
+
+#results h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#results p {
+    margin-bottom: 10px;
+}
+
+#results a {
+    color: #336699;
+    text-decoration: none;
+}
+
+#results a:hover {
+    text-decoration: underline;
+}
+
+/* تنسيق أزرار الصفحات */
+#pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#pagination button {
+    padding: 10px 20px;
+    background-color: #336699;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+}
+
+#pagination button:hover {
+    background-color: #003366;
+}
+
+/* تنسيق خيارات الفرز */
+#sortOptions {
+    background-color: #F5F5F5;
+    padding: 20px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+#sortOptions h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#sortOptions select {
+    padding: 5px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#sortButton {
+    padding: 10px 20px;
+    background-color: #336699;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#sortButton:hover {
+    background-color: #003366;
+}
+
+/* تنسيق تحذير إخلاء المسؤولية */
+#disclaimer {
+    background-color: #FFCCCC;
+    padding: 20px;
+    border: 1px solid #FF9999;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+#disclaimer p {
+    font-size: 1.2rem;
+    color: #721C24;
+}
+
+/* جعل الموقع متجاوبًا */
+@media (max-width: 768px) {
+    #results div {
+        width: 100%;
+    }
+
+    #searchForm {
+        width: 100%;
+    }
+
+    #title {
+        width: 100%;
+    }
+}
