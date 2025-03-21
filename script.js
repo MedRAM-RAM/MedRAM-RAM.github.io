@@ -98,66 +98,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // دالة لجلب التورنتات بناءً على معرف IMDb ورقم الصفحة
-    function fetchTorrents(imdbId, page) {
-        const limit = resultsPerPage;
-        fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=${limit}&page=${page}`)
-            .then(res => res.json())
-            .then(data => {
-                resultsDiv.innerHTML = '';
-                console.log(data);
-
-                if (data.torrents && data.torrents.length > 0) {
-                    torrentsData = data.torrents;
-                    const totalResults = data.torrents_count || torrentsData.length;
-                    statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
-
-                    const totalPages = Math.ceil(totalResults / resultsPerPage);
-
-                    torrentsData.forEach(torrent => {
-                        const parsed = parseTorrentTitle(torrent.title);
-                        if (parsed) {
-                            const torrentDiv = document.createElement('div');
-                            torrentDiv.innerHTML = `
-                                <h3>${parsed.showName} <span style="font-size: 0.8em;">S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}</span></h3>
-                                ${parsed.episodeTitle ? `<p>${parsed.episodeTitle}</p>` : ''}
-                                <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
-                                <a href="${torrent.magnet_url}">
-                                    <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                    تحميل
-                                </a>
-                                <span>${[parsed.quality, parsed.encoding, parsed.team].filter(Boolean).join(' | ')}</span>
-                            `;
-                            resultsDiv.appendChild(torrentDiv);
-                        }
-                    });
-
-                    paginationDiv.innerHTML = '';
-                    for (let i = 1; i <= totalPages; i++) {
-                        const button = document.createElement('button');
-                        button.textContent = `الصفحة ${i}`;
-                        button.addEventListener('click', () => fetchTorrents(imdbId, i));
-                        paginationDiv.appendChild(button);
-                    }
-
-                    sortOptionsDiv.style.display = 'block';
-                    populateDynamicOptions(torrentsData, 'quality', qualitySelect);
-                    populateDynamicOptions(torrentsData, 'encoding', encodingSelect);
-                    populateDynamicOptions(torrentsData, 'team', teamSelect);
-                } else {
-                    resultsDiv.innerHTML = '<p>لا توجد تورنتات لهذا المسلسل.</p>';
-                    sortOptionsDiv.style.display = 'none';
-                    statsDiv.innerHTML = '';
-                    paginationDiv.innerHTML = '';
+function fetchTorrents(imdbId, page) {
+    const limit = resultsPerPage;
+    fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=${limit}&page=${page}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            resultsDiv.innerHTML = ''; // مسح النتائج السابقة
+            console.log(data); // طباعة الاستجابة للتحقق من هيكلها
+            if (data.torrents && data.torrents.length > 0) {
+                torrentsData = data.torrents; // تخزين النتائج الأصلية
+                const totalResults = data.torrents_count || torrentsData.length; // العدد الإجمالي للنتائج
+                statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`; // عرض الإحصائية
+                // حساب عدد الصفحات
+                const totalPages = Math.ceil(totalResults / resultsPerPage);
+                // عرض النتائج
+                torrentsData.forEach(torrent => {
+                    const torrentDiv = document.createElement('div');
+                    torrentDiv.innerHTML = `
+                    <h3>${torrent.title}</h3>
+                    <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
+                    <a href="${torrent.magnet_url}">
+                    <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                    تحميل
+                    </a>
+                    `;
+                    resultsDiv.appendChild(torrentDiv);
+                });
+                // إنشاء أزرار الصفحات
+                paginationDiv.innerHTML = ''; // مسح الأزرار السابقة
+                for (let i = 1; i <= totalPages; i++) {
+                    const button = document.createElement('button');
+                    button.textContent = `الصفحة ${i}`;
+                    button.addEventListener('click', () => fetchTorrents(imdbId,.appendChild(button);
                 }
-            })
-            .catch(error => {
-                console.error('خطأ في طلب EZTV:', error);
-                resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV. يرجى المحاولة لاحقًا.</p>';
+                // إظهار خيارات الفرز
+                sortOptionsDiv.style.display = 'block';
+                populateDynamicOptions(torrentsData, 'quality', qualitySelect);
+                populateDynamicOptions(torrentsData, 'encoding', encodingSelect);
+                populateDynamicOptions(torrentsData, 'team', teamSelect);
+            } else {
+                resultsDiv.innerHTML = '<p>لا توجد تورنتات لهذا المسلسل.</p>';
                 sortOptionsDiv.style.display = 'none';
                 statsDiv.innerHTML = '';
                 paginationDiv.innerHTML = '';
-            });
-    }
+            }
+        })
+        .catch(error => {
+            console.error('خطأ في طلب EZTV:', error);
+            resultsDiv.innerHTML = `<p>حدث خطأ أثناء البحث في EZTV. يرجى المحاولة لاحقًا. تفاصيل الخطأ: ${error.message}</p>`;
+            sortOptionsDiv.style.display = 'none';
+            statsDiv.innerHTML = '';
+            paginationDiv.innerHTML = '';
+        });
+}
 
     // دالة لإنشاء خيارات ديناميكية
     function populateDynamicOptions(results, type, selectElement) {
