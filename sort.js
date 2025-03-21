@@ -51,13 +51,21 @@ function displaySortedResults(results, resultsDiv) {
     resultsDiv.innerHTML = '';
     if (results.length > 0) {
         results.forEach(torrent => {
-            const torrentDiv = document.createElement('div');
-            torrentDiv.innerHTML = `
-                <h3>${torrent.title}</h3>
-                <p>الحجم: ${torrent.size_bytes} بايت</p>
-                <a href="${torrent.magnet_url}">رابط المغناطيس</a>
-            `;
-            resultsDiv.appendChild(torrentDiv);
+            const parsed = parseTorrentTitle(torrent.title);
+            if (parsed) {
+                const torrentDiv = document.createElement('div');
+                torrentDiv.innerHTML = `
+                    <h3>${parsed.showName} <span style="font-size: 0.8em;">S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}</span></h3>
+                    ${parsed.episodeTitle ? `<p>${parsed.episodeTitle}</p>` : ''}
+                    <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
+                    <a href="${torrent.magnet_url}">
+                        <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                        تحميل
+                    </a>
+                    <span>${[parsed.quality, parsed.encoding, parsed.team].filter(Boolean).join(' | ')}</span>
+                `;
+                resultsDiv.appendChild(torrentDiv);
+            }
         });
     } else {
         resultsDiv.innerHTML = '<p>لا توجد نتائج تطابق المعايير.</p>';
