@@ -6,14 +6,19 @@
 }
 
 /* تنسيق الجسم الرئيسي */
+html, body {
+    height: 100%;
+    margin: 0;
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #FFFFFF;
     color: #333333;
     line-height: 1.6;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
-
 /* تنسيق المقدمة (Header) */
 header {
     background-color: #003366;
@@ -90,7 +95,7 @@ header h1 {
 
 /* تنسيق الوسط (Main Content) */
 main {
-    margin: 20px 0;
+    flex: 1; /* يجعل الجزء الرئيسي يتمدد لملء المساحة */
 }
 
 #stats {
@@ -128,11 +133,10 @@ main {
 
 /* تنسيق الذيل (Footer) */
 footer {
-    background-color: #003366;
-    color: #FFFFFF;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #003366; /* لون الخلفية */
+    color: #FFFFFF; /* لون النص */
+    padding: 20px; /* تباعد داخلي */
+    text-align: center; /* محاذاة النص */
 }
 
 #pagination {
