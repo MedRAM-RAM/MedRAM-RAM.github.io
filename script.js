@@ -98,7 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         torrentDiv.innerHTML = `
                         <h3>${torrent.title}</h3>
                         <p>الحجم: ${formatFileSize(torrent.size_bytes)}</p>
-                        <a href="${torrent.magnet_url}">رابط المغناطيس</a>
+                        <a href="${torrent.magnet_url}">
+                        <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                        تحميل
+                        </a>
                         `;
                         resultsDiv.appendChild(torrentDiv);
                     });
