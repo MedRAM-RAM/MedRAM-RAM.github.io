@@ -62,71 +62,71 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // دالة لجلب التورنتات بناءً على معرف IMDb ورقم الصفحة
     function fetchTorrents(imdbId, page) {
-        const limit = resultsPerPage;
-        fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=${limit}&page=${page}`)
-            .then(res => res.json())
-            .then(data => {
-                resultsDiv.innerHTML = '';
-                console.log(data);
+    const limit = resultsPerPage;
+    fetch(`https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=${limit}&page=${page}`)
+        .then(res => res.json())
+        .then(data => {
+            resultsDiv.innerHTML = '';
+            console.log(data);
 
-                if (data.torrents && data.torrents.length > 0) {
-                    const torrentsData = data.torrents;
-                    const totalResults = data.torrents_count || torrentsData.length;
-                    statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
+            if (data.torrents && data.torrents.length > 0) {
+                const torrentsData = data.torrents;
+                const totalResults = data.torrents_count || torrentsData.length;
+                statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
 
-                    const totalPages = Math.ceil(totalResults / resultsPerPage);
-                    
-                    torrentsData.forEach(torrent => {
-                        const parsed = window.parseTorrentTitle(torrent.title);
-                        if (parsed) {
-                            const torrentDiv = document.createElement('div');
-                            let episodeTitleHtml = parsed.episodeTitle ? `<p style="font-size: 0.9em;">${parsed.episodeTitle}</p>` : '';
-                            let qualityEncodingTeam = `<b>${parsed.quality}</b> | ${parsed.encoding?.replace(/-$/, '')} ${parsed.team ? '| ' + parsed.team : ''}`;
+                const totalPages = Math.ceil(totalResults / resultsPerPage);
+                
+                torrentsData.forEach(torrent => {
+                    const parsed = window.parseTorrentTitle(torrent.title);
+                    if (parsed) {
+                        const torrentDiv = document.createElement('div');
+                        let episodeTitleHtml = parsed.episodeTitle ? `<p style="font-size: 0.9em;">${parsed.episodeTitle}</p>` : '';
+                        let infoLine = `${parsed.quality || 'غير محدد'} | ${parsed.encoding || 'غير محدد'} | ${parsed.team || 'غير محدد'}`;
 
-                            torrentDiv.innerHTML = `
-                                <h3>${parsed.showName} <span style="font-size: 0.8em;">S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}</span></h3>
-                                ${episodeTitleHtml}
-                                <p style="direction: rtl;">الحجم: ${formatFileSize(torrent.size_bytes)}</p>
-                                <div>
-                                    <a href="${torrent.magnet_url}">
-                                        <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                                        تحميل
-                                    </a>
-                                    <a href="${torrent.magnet_url}" class="stream-magnet" style="margin-left: 10px; background-color: #007bff; color: #fff; padding: 8px 15px; border-radius: 5px; text-decoration: none;">
-                                        مشاهدة مباشرة
-                                    </a>
-                                </div>
-                                <span>${qualityEncodingTeam}</span>
-                            `;
-                            resultsDiv.appendChild(torrentDiv);
-                        }
-                    });
-
-                    paginationDiv.innerHTML = '';
-                    for (let i = 1; i <= totalPages; i++) {
-                        const button = document.createElement('button');
-                        button.textContent = `الصفحة ${i}`;
-                        button.addEventListener('click', () => fetchTorrents(imdbId, i));
-                        paginationDiv.appendChild(button);
+                        torrentDiv.innerHTML = `
+                            <h3>${parsed.showName} <span style="font-size: 0.8em;">S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}</span></h3>
+                            ${episodeTitleHtml}
+                            <p class="info-line" style="direction: rtl;">${infoLine}</p>
+                            <p style="direction: rtl;">الحجم: ${formatFileSize(torrent.size_bytes)}</p>
+                            <div>
+                                <a href="${torrent.magnet_url}">
+                                    <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                                    تحميل
+                                </a>
+                                <a href="${torrent.magnet_url}" class="stream-magnet" style="margin-left: 10px; background-color: #007bff; color: #fff; padding: 8px 15px; border-radius: 5px; text-decoration: none;">
+                                    مشاهدة مباشرة
+                                </a>
+                            </div>
+                        `;
+                        resultsDiv.appendChild(torrentDiv);
                     }
+                });
 
-                    sortOptionsDiv.style.display = 'block';
-                    window.initializeSortOptions(torrentsData, resultsDiv, formatFileSize);
-                } else {
-                    resultsDiv.innerHTML = '<p>لا توجد تورنتات لهذا المسلسل.</p>';
-                    sortOptionsDiv.style.display = 'none';
-                    statsDiv.innerHTML = '';
-                    paginationDiv.innerHTML = '';
+                paginationDiv.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    const button = document.createElement('button');
+                    button.textContent = `الصفحة ${i}`;
+                    button.addEventListener('click', () => fetchTorrents(imdbId, i));
+                    paginationDiv.appendChild(button);
                 }
-            })
-            .catch(error => {
-                console.error('خطأ في طلب EZTV:', error);
-                resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV. يرجى المحاولة لاحقًا.</p>';
+
+                sortOptionsDiv.style.display = 'block';
+                window.initializeSortOptions(torrentsData, resultsDiv, formatFileSize);
+            } else {
+                resultsDiv.innerHTML = '<p>لا توجد تورنتات لهذا المسلسل.</p>';
                 sortOptionsDiv.style.display = 'none';
                 statsDiv.innerHTML = '';
                 paginationDiv.innerHTML = '';
-            });
-    }
+            }
+        })
+        .catch(error => {
+            console.error('خطأ في طلب EZTV:', error);
+            resultsDiv.innerHTML = '<p>حدث خطأ أثناء البحث في EZTV. يرجى المحاولة لاحقًا.</p>';
+            sortOptionsDiv.style.display = 'none';
+            statsDiv.innerHTML = '';
+            paginationDiv.innerHTML = '';
+        });
+}
 
     // إضافة مستمع حدث لزر تبديل الوضع المظلم
     toggleDarkModeButton.addEventListener('click', () => {
