@@ -9,50 +9,55 @@
     <script src="sort.js" defer></script>
 </head>
 <body>
-    <!-- المقدمة: مربع البحث وإعدادات الفرز -->
     <header>
         <h1>فهرسة تورنتات EZTV</h1>
+        <button id="toggleDarkMode">الوضع المظلم</button>
         <div id="searchForm">
             <input type="text" id="title" placeholder="أدخل عنوان المسلسل">
             <button id="searchButton">بحث</button>
         </div>
-        <div id="sortOptions" style="display: none;">
+        <button id="toggleSortOptions">خيارات الفرز</button>
+        <div id="sortOptions">
             <h3>فرز النتائج</h3>
-            <label for="season">رقم الموسم:</label>
-            <select id="season">
-                <option value="بدون">بدون</option>
-            </select>
-            <label for="episode">رقم الحلقة:</label>
-            <select id="episode">
-                <option value="بدون">بدون</option>
-            </select>
-            <label for="quality">الجودة:</label>
-            <select id="quality">
-                <option value="بدون">بدون</option>
-            </select>
-            <label for="encoding">الترميز:</label>
-            <select id="encoding">
-                <option value="بدون">بدون</option>
-            </select>
-            <label for="team">الفريق:</label>
-            <select id="team">
-                <option value="بدون">بدون</option>
-            </select>
+            <div class="sort-row">
+                <label for="season">رقم الموسم:</label>
+                <select id="season">
+                    <option value="بدون">بدون</option>
+                </select>
+                <label for="episode">رقم الحلقة:</label>
+                <select id="episode">
+                    <option value="بدون">بدون</option>
+                </select>
+            </div>
+            <div class="sort-row">
+                <label for="quality">الجودة:</label>
+                <select id="quality">
+                    <option value="بدون">بدون</option>
+                </select>
+                <label for="encoding">الترميز:</label>
+                <select id="encoding">
+                    <option value="بدون">بدون</option>
+                </select>
+                <label for="team">الفريق:</label>
+                <select id="team">
+                    <option value="بدون">بدون</option>
+                </select>
+            </div>
             <button id="sortButton">فرز</button>
         </div>
     </header>
 
-    <!-- الوسط: إحصائية عدد النتائج ونتائج البحث -->
     <main>
         <div id="stats"></div>
         <div id="results"></div>
     </main>
 
-    <!-- الذيل: صفحات نتائج البحث وإخلاء المسؤولية -->
     <footer>
         <div id="pagination"></div>
         <div id="disclaimer">
-            <p>تحذير: هذا الموقع لا يستضيف أي محتوى محمي بحقوق الطبع والنشر. جميع الروابط المقدمة هي من مصادر خارجية، ونحن لا نتحمل أي مسؤولية عن المحتوى أو استخدامه. المستخدمون مسؤولون عن الامتثال لجميع القوانين المحلية والدولية المتعلقة بحقوق الطبع والنشر.</p>
+            <p>تحذير: هذا الموقع لا يستضيف أي محتوى محمي بحقوق الطبع والنشر.
+جميع الروابط المقدمة هي من مصادر خارجية، ونحن لا نتحمل أي مسؤولية عن المحتوى أو استخدامه.
+المستخدمون مسؤولون عن الامتثال لجميع القوانين المحلية والدولية المتعلقة بحقوق الطبع والنشر.</p>
         </div>
     </footer>
 </body>
