@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
 
                     const totalPages = Math.ceil(totalResults / resultsPerPage);
-
-torrentsData.forEach(torrent => {
+                    
+                    torrentsData.forEach(torrent => {
                         const parsed = window.parseTorrentTitle(torrent.title);
                         if (parsed) {
                             const torrentDiv = document.createElement('div');
@@ -87,10 +87,15 @@ torrentsData.forEach(torrent => {
                                 <h3>${parsed.showName} <span style="font-size: 0.8em;">S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}</span></h3>
                                 ${episodeTitleHtml}
                                 <p style="direction: rtl;">الحجم: ${formatFileSize(torrent.size_bytes)}</p>
-                                <a href="${torrent.magnet_url}">
-                                <img src="images/magnet.png" alt="الرابط المغناطيسي" class="magnet-icon">
-                                    تحميل
-                                </a>
+                                <div>
+                                    <a href="${torrent.magnet_url}">
+                                        <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                                        تحميل
+                                    </a>
+                                    <a href="${torrent.magnet_url}" class="stream-magnet" style="margin-left: 10px; background-color: #007bff; color: #fff; padding: 8px 15px; border-radius: 5px; text-decoration: none;">
+                                        مشاهدة مباشرة
+                                    </a>
+                                </div>
                                 <span>${qualityEncodingTeam}</span>
                             `;
                             resultsDiv.appendChild(torrentDiv);
