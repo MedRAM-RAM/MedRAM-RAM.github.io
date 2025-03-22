@@ -1,164 +1,550 @@
-/* إعادة تعيين الإعدادات الافتراضية */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* styles.css */
 
-/* تنسيق الجسم الرئيسي */
-html, body {
-    height: 100%;
-    margin: 0;
-}
 body {
     font-family: Arial, sans-serif;
-    background-color: #FFFFFF;
-    color: #333333;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
     line-height: 1.6;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
 }
-/* تنسيق المقدمة (Header) */
+
 header {
-    background-color: #003366;
-    color: #FFFFFF;
-    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
-    font-size: 2.5rem;
     margin-bottom: 10px;
 }
 
 #searchForm {
-    margin-bottom: 10px;
-}
-
-#title {
-    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
     padding: 10px;
-    border: 1px solid #CCCCCC;
+    background-color: #eee;
     border-radius: 5px;
-    font-size: 1rem;
 }
 
-#searchButton {
+#searchForm input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 10px;
+    width: 300px;
+}
+
+#searchForm button {
     padding: 10px 20px;
-    background-color: #336699;
-    color: #FFFFFF;
+    background-color: #5cb85c;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-#searchButton:hover {
-    background-color: #003366;
+#searchForm button:hover {
+    background-color: #4cae4c;
 }
 
 #sortOptions {
-    background-color: #F5F5F5;
-    padding: 10px;
-    border: 1px solid #CCCCCC;
+    background-color: #eee;
+    padding: 15px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 #sortOptions h3 {
-    font-size: 1.5rem;
+    margin-top: 0;
     margin-bottom: 10px;
 }
 
-#sortOptions select {
-    padding: 5px;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
+.sort-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sort-row label {
     margin-right: 10px;
 }
 
-#sortButton {
+.sort-row select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 15px;
+}
+
+#sortOptions button {
     padding: 10px 20px;
-    background-color: #336699;
-    color: #FFFFFF;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-#sortButton:hover {
-    background-color: #003366;
+#sortOptions button:hover {
+    background-color: #0056b3;
 }
 
-/* تنسيق الوسط (Main Content) */
 main {
-    flex: 1; /* يجعل الجزء الرئيسي يتمدد لملء المساحة */
+    padding: 20px;
 }
 
 #stats {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    color: #003366;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #777;
 }
 
-/* تنسيق قسم النتائج */
 #results {
-    display: flex;
-    flex-direction: column; /* ترتيب النتائج رأسيًا */
-    align-items: center; /* محاذاة النتائج في المنتصف أفقيًا */
-    gap: 20px; /* مسافة بين كل نتيجة */
-    margin: 20px 0; /* هامش علوي وسفلي */
+    margin-bottom: 20px;
 }
 
-/* تنسيق كل نتيجة */
 #results div {
-    background-color: #FFFFFF;
-    border: 1px solid #CCCCCC;
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 20px;
-    width: 80%; /* عرض النتيجة */
-    max-width: 600px; /* الحد الأقصى للعرض */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s; /* تأثير حركي اختياري */
 }
 
-/* تأثير عند التمرير بالماوس */
-#results div:hover {
-    transform: translateY(-5px);
+#results h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
 }
 
-/* تنسيق الذيل (Footer) */
-footer {
-    background-color: #003366; /* لون الخلفية */
-    color: #FFFFFF; /* لون النص */
-    padding: 20px; /* تباعد داخلي */
-    text-align: center; /* محاذاة النص */
+#results a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+#results a:hover {
+    text-decoration: underline;
+}
+
+#results span {
+    font-size: 0.8em;
+    color: #555;
+}
+.magnet-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
 #pagination {
-    margin-bottom: 10px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #pagination button {
-    padding: 10px 20px;
-    background-color: #336699;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 5px;
+    padding: 8px 15px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
     cursor: pointer;
-    margin: 0 5px;
-    transition: background-color 0.3s;
+    background-color: #eee;
 }
 
 #pagination button:hover {
-    background-color: #003366;
+    background-color: #ddd;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.8em;
 }
 
 #disclaimer p {
-    font-size: 1.2rem;
-    color: #FFCCCC;
+    margin: 0;
 }
+
+img[alt="مغناطيس"] {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+/* styles.css */
+
+/* ... باقي أنماط CSS ... */
+
+/* أنماط للشاشات الصغيرة (أقل من 768 بكسل عرضًا) */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 0;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    #searchForm {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #searchForm input[type="text"] {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    #sortOptions {
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .sort-row {
+        flex-direction: column;
+        align-items: stretch;
+        margin-bottom: 10px;
+    }
+
+    .sort-row label {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .sort-row select {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    #results div {
+        padding: 10px;
+    }
+
+    #results h3 {
+        font-size: 1.1em;
+    }
+
+    #pagination button {
+        padding: 6px 10px;
+        margin: 3px;
+    }
+}
+
+/* نمط إضافي لإخفاء خيارات الفرز افتراضيًا على الشاشات الصغيرة */
+@media (max-width: 768px) {
+    #sortOptions {
+        display: none; /* إخفاء خيارات الفرز افتراضيًا */
+    }
+
+    #sortOptions.show {
+        display: block; /* لإظهار خيارات الفرز عند الحاجة */
+    }
+
+    #toggleSortOptions {
+        display: block; /* إظهار زر التبديل */
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    #toggleSortOptions:hover {
+        background-color: #0056b3;
+    }
+}
+
+/* إخفاء زر التبديل على الشاشات الأكبر */
+@media (min-width: 769px) {
+    #toggleSortOptions {
+        display: none;
+    }
+}
+/* styles.css */
+
+/* أنماط الوضع الفاتح (الافتراضي) */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease; /* إضافة انتقال سلس للتغيير */
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#searchForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#searchForm input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 10px;
+    width: 300px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+#searchForm button {
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#searchForm button:hover {
+    background-color: #4cae4c;
+}
+
+#sortOptions {
+    background-color: #eee;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+#sortOptions h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.sort-row label {
+    margin-right: 10px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.sort-row select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 15px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+#sortOptions button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#sortOptions button:hover {
+    background-color: #0056b3;
+}
+
+main {
+    padding: 20px;
+}
+
+#stats {
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #777;
+    transition: color 0.3s ease;
+}
+
+#results {
+    margin-bottom: 20px;
+}
+
+#results div {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+#results h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+#results a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+#results a:hover {
+    text-decoration: underline;
+}
+
+#results span {
+    font-size: 0.8em;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+#pagination {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#pagination button {
+    padding: 8px 15px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #eee;
+    color: #333;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+#pagination button:hover {
+    background-color: #ddd;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#disclaimer p {
+    margin: 0;
+}
+
+img[alt="مغناطيس"] {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* أنماط الوضع المظلم */
+.dark-mode {
+    background-color: #1e1e1e;
+    color: #f8f8f2;
+}
+
+.dark-mode header {
+    background-color: #282a36;
+    color: #f8f8f2;
+}
+
+.dark-mode #searchForm {
+    background-color: #44475a;
+}
+
+.dark-mode #searchForm input[type="text"] {
+    color: #f8f8f2;
+    background-color: #3b3d4b;
+    border-color: #6272a4;
+}
+
+.dark-mode #sortOptions {
+    background-color: #44475a;
+}
+
+.dark-mode #sortOptions h3 {
+    color: #f8f8f2;
+}
+
+.dark-mode .sort-row label {
+    color: #f8f8f2;
+}
+
+.dark-mode .sort-row select {
+    color: #f8f8f2;
+    background-color: #3b3d4b;
+    border-color: #6272a4;
+}
+
+.dark-mode #stats {
+    color: #d1d1d1;
+}
+
+.dark-mode #results div {
+    background-color: #282a36;
+    border-color: #6272a4;
+    color: #f8f8f2;
+}
+
+.dark-mode #results h3 {
+    color: #f8f8f2;
+}
+
+.dark-mode #results a {
+    color: #8be9fd;
+}
+
+.dark-mode #results span {
+    color: #bfbfbf;
+}
+
+.dark-mode #pagination button {
+    background-color: #3b3d4b;
+    border-color: #6272a4;
+    color: #f8f8f2;
+}
+
+.dark-mode footer {
+    background-color: #282a36;
+    color: #f8f8f2;
+}
+
+.dark-mode #toggleDarkMode {
+    background-color: #6272a4;
+    color: #282a36;
+}
+
+.dark-mode #toggleDarkMode:hover {
+    background-color: #8be9fd;
+    color: #282a36;
+}
+|
