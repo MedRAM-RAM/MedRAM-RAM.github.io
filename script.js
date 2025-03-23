@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         } else {
             resultsDiv.innerHTML = '<p>يرجى إدخال عنوان المسلسل.</p>';
-            sortOptionsDiv.style.display = 'none';
+            sortOptionsDiv.style.display = 'block';
             statsDiv.innerHTML = '';
             paginationDiv.innerHTML = '';
         }
@@ -92,9 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <a href="${torrent.magnet_url}">
                                     <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
                                     تحميل
-                                </a>
-                                <a href="${torrent.magnet_url}" class="stream-magnet" style="margin-left: 10px; background-color: #007bff; color: #fff; padding: 8px 15px; border-radius: 5px; text-decoration: none;">
-                                    مشاهدة مباشرة
                                 </a>
                             </div>
                         `;
