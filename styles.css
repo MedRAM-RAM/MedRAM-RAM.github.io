@@ -1,568 +1,236 @@
-/* styles.css */
-
-body {
-    font-family: Arial, sans-serif;
+/* إعادة تعيين الإعدادات الأساسية */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* إعادة تعيين الإعدادات الأساسية */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* الجسم الرئيسي */
+body {
     background-color: #f4f4f4;
     color: #333;
-    line-height: 1.6;
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* لضمان أن يكون الجسم بارتفاع الشاشة على الأقل */
 }
 
+/* الهيدر */
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
+    background-color: #1a1a1a;
+    color: white;
     text-align: center;
+    padding: 15px;
+    position: fixed;
+    width: 100%;
+    top: 0;
 }
 
-header h1 {
-    margin-bottom: 10px;
-}
-
+/* نموذج البحث */
 #searchForm {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #eee;
-    border-radius: 5px;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-#searchForm input[type="text"] {
+#title {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-right: 10px;
-    width: 300px;
-}
-
-#searchForm button {
-    padding: 10px 20px;
-    background-color: #5cb85c;
-    color: #fff;
+    width: 70%;
     border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-#searchForm button:hover {
-    background-color: #4cae4c;
-}
-
-#sortOptions {
-    background-color: #eee;
-    padding: 15px;
     border-radius: 5px;
-    margin-bottom: 20px;
-    text-align: center;
 }
 
-#sortOptions h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
+#searchButton {
+    padding: 10px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40px; /* لجعل الزر مربعًا */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#searchButton i {
+    font-size: 1.2rem;
+}
+
+#searchButton:hover {
+    background-color: #b20710;
+}
+
+/* الجسم الرئيسي */
+main {
+    padding: 80px 10px 20px;
+    flex: 1; /* لضمان أن يأخذ المساحة المتبقية */
+}
+
+/* خيارات الفرز */
+#sortOptions {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 10px auto;
+    max-width: 600px;
+    display: none; /* مخفية افتراضيًا */
 }
 
 .sort-row {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.sort-row label {
-    margin-right: 10px;
-}
-
-.sort-row select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-right: 15px;
-}
-
-#sortOptions button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-#sortOptions button:hover {
-    background-color: #0056b3;
-}
-
-main {
-    padding: 20px;
-}
-
-#stats {
-    margin-bottom: 15px;
-    font-size: 0.9em;
-    color: #777;
-}
-
-#results {
-    margin-bottom: 20px;
-}
-
-#results div {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-#results h3 {
-    margin-top: 0;
+    justify-content: space-between;
     margin-bottom: 5px;
 }
 
-#results a {
-    color: #007bff;
-    text-decoration: none;
-    margin-right: 10px;
+.sort-row label {
+    font-size: 12px;
+    margin-right: 5px;
 }
 
-#results a:hover {
-    text-decoration: underline;
+.sort-row select {
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    flex: 1;
 }
 
-#results span {
-    font-size: 0.8em;
-    color: #555;
-}
-.info-box {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
+#sortButton {
+    padding: 8px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
     margin-top: 10px;
-    background-color: #f9f9f9;
-}
-.info-box p {
-    margin: 5px 0;
-}
-.info-line {
-    font-size: 0.9em;
-    color: #555;
-    margin-top: 5px;
-}
-.stream-magnet:hover {
-    background-color: #0056b3;
-}
-.magnet-icon {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-
-#pagination {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#pagination button {
-    padding: 8px 15px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
-    background-color: #eee;
-}
-
-#pagination button:hover {
-    background-color: #ddd;
-}
-
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 0.8em;
-}
-
-#disclaimer p {
-    margin: 0;
-}
-
-img[alt="مغناطيس"] {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-/* styles.css */
-
-/* ... باقي أنماط CSS ... */
-
-/* أنماط للشاشات الصغيرة (أقل من 768 بكسل عرضًا) */
-@media (max-width: 768px) {
-    header {
-        padding: 15px 0;
-    }
-
-    header h1 {
-        font-size: 1.5em;
-    }
-
-    #searchForm {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    #searchForm input[type="text"] {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    #sortOptions {
-        margin-bottom: 15px;
-        padding: 10px;
-    }
-
-    .sort-row {
-        flex-direction: column;
-        align-items: stretch;
-        margin-bottom: 10px;
-    }
-
-    .sort-row label {
-        margin-right: 0;
-        margin-bottom: 5px;
-    }
-
-    .sort-row select {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    #results div {
-        padding: 10px;
-    }
-
-    #results h3 {
-        font-size: 1.1em;
-    }
-
-    #pagination button {
-        padding: 6px 10px;
-        margin: 3px;
-    }
-}
-
-/* نمط إضافي لإخفاء خيارات الفرز افتراضيًا على الشاشات الصغيرة */
-@media (max-width: 768px) {
-    #sortOptions {
-        display: none; /* إخفاء خيارات الفرز افتراضيًا */
-    }
-
-    #sortOptions.show {
-        display: block; /* لإظهار خيارات الفرز عند الحاجة */
-    }
-
-    #toggleSortOptions {
-        display: block; /* إظهار زر التبديل */
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-align: center;
-    }
-
-    #toggleSortOptions:hover {
-        background-color: #0056b3;
-    }
-}
-
-/* إخفاء زر التبديل على الشاشات الأكبر */
-@media (min-width: 769px) {
-    #toggleSortOptions {
-        display: none;
-    }
-}
-/* styles.css */
-
-/* أنماط الوضع الفاتح (الافتراضي) */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease; /* إضافة انتقال سلس للتغيير */
-}
-
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-#searchForm {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #eee;
-    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
-#searchForm input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-right: 10px;
-    width: 300px;
-    color: #333;
-    background-color: #fff;
-    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+#sortButton:hover {
+    background-color: #b20710;
 }
 
-#searchForm button {
-    padding: 10px 20px;
-    background-color: #5cb85c;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#searchForm button:hover {
-    background-color: #4cae4c;
-}
-
-#sortOptions {
-    background-color: #eee;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-#sortOptions h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #333;
-    transition: color 0.3s ease;
-}
-
-.sort-row label {
-    margin-right: 10px;
-    color: #333;
-    transition: color 0.3s ease;
-}
-
-.sort-row select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-right: 15px;
-    color: #333;
-    background-color: #fff;
-    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
-}
-
-#sortOptions button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#sortOptions button:hover {
-    background-color: #0056b3;
-}
-
+/* الجسم الرئيسي */
 main {
-    padding: 20px;
+    padding: 80px 10px 20px;
 }
 
 #stats {
-    margin-bottom: 15px;
-    font-size: 0.9em;
-    color: #777;
-    transition: color 0.3s ease;
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 #results {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 #results div {
-    background-color: #fff;
+    background-color: white;
     padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    color: #333;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 #results h3 {
-    margin-top: 0;
-    margin-bottom: 5px;
-    color: #333;
-    transition: color 0.3s ease;
+    margin: 10px 0;
+    font-size: 1.2rem;
 }
 
-#results a {
-    color: #007bff;
-    text-decoration: none;
-    margin-right: 10px;
-    transition: color 0.3s ease;
+#results p {
+    color: #666;
+    font-size: 0.9rem;
 }
 
-#results a:hover {
-    text-decoration: underline;
-}
-
-#results span {
-    font-size: 0.8em;
-    color: #555;
-    transition: color 0.3s ease;
+/* الفوتر */
+footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #f4f4f4;
 }
 
 #pagination {
-    text-align: center;
     margin-bottom: 20px;
 }
 
 #pagination button {
-    padding: 8px 15px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    padding: 10px 20px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    margin: 0 5px;
     cursor: pointer;
-    background-color: #eee;
-    color: #333;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 #pagination button:hover {
-    background-color: #ddd;
+    background-color: #b20710;
 }
 
-footer {
-    background-color: #333;
-    color: #fff;
+#disclaimer {
+    font-size: 10px;
+    color: #666;
+    padding: 5px;
     text-align: center;
-    padding: 10px 0;
-    font-size: 0.8em;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #f4f4f4;
 }
 
-#disclaimer p {
-    margin: 0;
+/* الوضع المظلم */
+body.dark-mode {
+    background-color: #000;
+    color: #fff;
 }
 
-img[alt="مغناطيس"] {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    margin-right: 5px;
+body.dark-mode header {
+    background-color: #333;
 }
 
-/* أنماط الوضع المظلم */
-.dark-mode {
-    background-color: #1e1e1e;
-    color: #f8f8f2;
+body.dark-mode #sortOptions,
+body.dark-mode #results div {
+    background-color: #1c1c1e;
 }
 
-.dark-mode header {
-    background-color: #282a36;
-    color: #f8f8f2;
+body.dark-mode #disclaimer {
+    background-color: #000;
 }
 
-.dark-mode #searchForm {
-    background-color: #44475a;
-}
+/* الاستجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+    #searchForm {
+        flex-direction: row;
+        gap: 10px;
+    }
 
-.dark-mode #searchForm input[type="text"] {
-    color: #f8f8f2;
-    background-color: #3b3d4b;
-    border-color: #6272a4;
-}
+    #title {
+        width: 60%;
+    }
 
-.dark-mode #sortOptions {
-    background-color: #44475a;
-}
+    #searchButton {
+        width: 40px;
+        padding: 10px;
+    }
 
-.dark-mode #sortOptions h3 {
-    color: #f8f8f2;
+    #searchButton::before {
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
-
-.dark-mode .sort-row label {
-    color: #f8f8f2;
-}
-
-.dark-mode .sort-row select {
-    color: #f8f8f2;
-    background-color: #3b3d4b;
-    border-color: #6272a4;
-}
-
-.dark-mode #stats {
-    color: #d1d1d1;
-}
-
-.dark-mode #results div {
-    background-color: #282a36;
-    border-color: #6272a4;
-    color: #f8f8f2;
-}
-
-.dark-mode #results h3 {
-    color: #f8f8f2;
-}
-
-.dark-mode #results a {
-    color: #8be9fd;
-}
-
-.dark-mode #results span {
-    color: #bfbfbf;
-}
-
-.dark-mode #pagination button {
-    background-color: #3b3d4b;
-    border-color: #6272a4;
-    color: #f8f8f2;
-}
-
-.dark-mode footer {
-    background-color: #282a36;
-    color: #f8f8f2;
-}
-
-.dark-mode #toggleDarkMode {
-    background-color: #6272a4;
-    color: #282a36;
-}
-
-.dark-mode #toggleDarkMode:hover {
-    background-color: #8be9fd;
-    color: #282a36;
-}
-|
