@@ -15,35 +15,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFormatFileSize = null;
 
     // دالة لتحليل عنوان التورنت
-    function parseTorrentTitle(title) {
-        title = title.replace(/EZTV/gi, '').trim();
-        const regex = /^(.*?)\s*S(\d{1,2})E(\d{1,2})\s*(.*?)\s*(\d{3,4}p)?\s*(\w+)?\s*(\w+)?$/i;
-        const match = title.match(regex);
-        if (match) {
-            return {
-                showName: match[1].trim(),
-                season: parseInt(match[2], 10),
-                episode: parseInt(match[3], 10),
-                episodeTitle: match[4] ? match[4].trim() : '',
-                quality: match[5] ? match[5].trim() : '',
-                encoding: match[6] ? match[6].trim() : '',
-                team: match[7] ? match[7].trim() : ''
-            };
-        }
-        return null;
+function parseTorrentTitle(title) {
+    title = title.replace(/EZTV/gi, '').trim();
+    const regex = /^(.*?)\s*S(\d{1,2})E(\d{1,2})(?:\s*(.*?))?\s*(2160p|1080p|720p|480p)?\s*(x264|x265)?\s*(?:-(\w+))?$/i;
+    const match = title.match(regex);
+    if (match) {
+        return {
+            showName: match[1].trim(),
+            season: parseInt(match[2], 10),
+            episode: parseInt(match[3], 10),
+            episodeTitle: match[4] ? match[4].trim() : '',
+            quality: match[5] ? match[5].trim() : '',
+            encoding: match[6] ? match[6].trim() : '',
+            team: match[7] ? match[7].trim() : ''
+        };
     }
+    return null;
+}
 
     // دالة لاستخراج المعلومات من العنوان باستخدام Regex
     function extractInfo(title) {
         const seasonEpisodeRegex = /S(\d{2})E(\d{2})/i; // S01E01
-        const qualityRegex = /(1080p|720p|480p)/i; // 1080p, 720p, 480p
-        const encodingRegex = /(x265|x264)/i; // x265, x264
-        const teamRegex = /-([A-Za-z0-9]+)(?= EZTV)/i; // الفريق قبل EZTV
+      const qualityRegex = /(2160p|2160p|1080p|720p|480p)/i; // 1080p, 720p, 480p
+      const encodingRegex = /(x265|x264|H246|H 264)/i; // x265, x264
+      const teamRegex = /-([A-Za-z0-9]+)(?= EZTV)/i; // الفريق قبل EZTV
 
-        const seasonEpisodeMatch = title.match(seasonEpisodeRegex);
-        const qualityMatch = title.match(qualityRegex);
-        const encodingMatch = title.match(encodingRegex);
-        const teamMatch = title.match(teamRegex);
+      const seasonEpisodeMatch = title.match(seasonEpisodeRegex);
+      const qualityMatch = title.match(qualityRegex);
+      const encodingMatch = title.match(encodingRegex);
+       const teamMatch = title.match(teamRegex);
 
         return {
             season: seasonEpisodeMatch ? parseInt(seasonEpisodeMatch[1]) : null,
@@ -102,19 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // دالة لفرز النتائج بناءً على المعايير
-    function sortResults(results, season, episode, quality, encoding, team) {
-        return results.filter(torrent => {
-            const parsedTitle = parseTorrentTitle(torrent.title);
-            if (!parsedTitle) return false;
+function sortResults(results, season, episode, quality, encoding, team) {
+    return results.filter(torrent => {
+        const parsed = parseTorrentTitle(torrent.title);
+        if (!parsed) return false;
 
-            const seasonMatch = season === 'بدون' || (season && parsedTitle.season === parseInt(season));
-            const episodeMatch = episode === 'بدون' || (episode && parsedTitle.episode === parseInt(episode));
-            const qualityMatch = quality === 'بدون' || (quality && parsedTitle.quality?.toLowerCase() === quality.toLowerCase());
-            const encodingMatch = encoding === 'بدون' || (encoding && parsedTitle.encoding?.toLowerCase() === encoding.toLowerCase());
-            const teamMatch = team === 'بدون' || (team && parsedTitle.team?.toLowerCase() === team.toLowerCase());
-            return seasonMatch && episodeMatch && qualityMatch && encodingMatch && teamMatch;
-        });
-    }
+        const seasonMatch = season === 'بدون' || (season && parsed.season === parseInt(season));
+        const episodeMatch = episode === 'بدون' || (episode && parsed.episode === parseInt(episode));
+        const qualityMatch = quality === 'بدون' || (quality && parsed.quality?.toLowerCase() === quality.toLowerCase());
+        const encodingMatch = encoding === 'بدون' || (encoding && parsed.encoding?.toLowerCase() === encoding.toLowerCase());
+        const teamMatch = team === 'بدون' || (team && parsed.team?.toLowerCase() === team.toLowerCase());
+        return seasonMatch && episodeMatch && qualityMatch && encodingMatch && teamMatch;
+    });
+}
 
     // دالة لعرض النتائج المفرزة
     function displaySortedResults(results, resultsDiv, formatFileSize) {
@@ -125,21 +125,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (parsed) {
                     const torrentDiv = document.createElement('div');
                     let episodeTitleHtml = parsed.episodeTitle ? `<p style="font-size: 0.9em;">${parsed.episodeTitle}</p>` : '';
-                    let qualityEncodingTeam = `<b>${parsed.quality}</b> | ${parsed.encoding?.replace(/-$/, '')} ${parsed.team ? '| ' + parsed.team : ''}`;
+                    let qualityEncodingTeam = `<span style="font-weight: bold;">${parsed.quality}</span> | ${parsed.encoding?.replace(/-$/, '')} ${parsed.team ? '| ' + parsed.team : ''}`;
 
                     torrentDiv.innerHTML = `
                         <h3>${parsed.showName} <span style="font-size: 0.8em;">S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}</span></h3>
                         ${episodeTitleHtml}
+                        <p>${qualityEncodingTeam}</p>
                         <p style="direction: rtl;">الحجم: ${formatFileSize(torrent.size_bytes)}</p>
-                        <a href="${torrent.magnet_url}">
-                            <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
-                            تحميل
-                        </a>
-                        <span>${qualityEncodingTeam}</span>
+                        <div>
+                            <a href="${torrent.magnet_url}">
+                                <img src="images/magnet.png" alt="مغناطيس" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                                تحميل
+                            </a>
+                            <a href="${torrent.magnet_url}" class="stream-magnet" style="margin-left: 10px; background-color: #007bff; color: #fff; padding: 8px 15px; border-radius: 5px; text-decoration: none;">
+                                مشاهدة مباشرة
+                            </a>
+                        </div>
                     `;
                     resultsDiv.appendChild(torrentDiv);
                 }
             });
+            
         } else {
             resultsDiv.innerHTML = '<p>لا توجد نتائج تطابق المعايير.</p>';
         }
