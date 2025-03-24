@@ -87,6 +87,28 @@ main {
     max-width: 600px;
     display: none; /* مخفية افتراضيًا */
 }
+/* أنماط زر التحميل */
+.download-button {
+    display: inline-flex; /* لترتيب الصورة والنص أفقيًا */
+    align-items: center; /* لمحاذاة العناصر عموديًا */
+    padding: 10px 20px; /* حشوة داخلية للزر */
+    background-color: #e50914; /* لون الخلفية الأحمر */
+    color: white; /* لون النص */
+    text-decoration: none; /* إزالة التسطير من الرابط */
+    border-radius: 5px; /* زوايا مستديرة */
+    cursor: pointer; /* مؤشر يد عند التمرير */
+    transition: background-color 0.3s ease; /* تأثير انتقال سلس */
+}
+
+.download-button:hover {
+    background-color: #b20710; /* لون الخلفية عند التمرير */
+}
+
+.download-icon {
+    width: 20px; /* عرض الصورة */
+    height: 20px; /* ارتفاع الصورة */
+    margin-right: 5px; /* مسافة بين الصورة والنص */
+}
 
 .sort-row {
     display: flex;
