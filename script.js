@@ -146,8 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return torrentDiv;
     }
            // إضافة متغيرات لـ Trakt.tv
-const traktClientId = '3883c8bf5b8823102e49f1e3f142074732fcf5fc642688638dc88eec523a6b3f'; // استبدل بمفتاح API الخاص بك
-const traktClientSecret = 'e70657df8691d788bdfdbb7c95028459db5b919b0091f94795786475ef481703'; // استبدل بالسر
+const traktClientId = 'b0a4de8025ff984a9464ac373130a875e148bc9114bff96d228c74f42d8b1f5d'; // استبدل بمفتاح API الخاص بك
+const traktClientSecret = '57a4a02278e60a321f9e9388c320a5b7340a0e37fd3c80864553ff4484dd319b'; // استبدل بالسر
 let traktAccessToken = null;
 
 // دالة لتسجيل الدخول باستخدام OAuth
