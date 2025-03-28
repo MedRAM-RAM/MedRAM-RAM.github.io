@@ -170,7 +170,7 @@ async function handleTraktCallback() {
                 client_id: traktClientId,
                 client_secret: trakClientSecret,
                 redirect_uri: 'https://medram-ram.github.io/callback.html',
-                grant_type: 'authorization_code'
+                grant_type: 'da860814447705c2592c826ef61d47c95032958bd3ab91d54959ce06fa685f21'
             })
         });
         const data = await response.json();
