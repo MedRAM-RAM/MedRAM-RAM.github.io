@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "*/6 * * * *"  # كل 3 دقائق
   workflow_dispatch:     # تشغيل يدوي
+  repository_dispatch:
+    types: [trigger-rss-update]
 
 jobs:
   generate-rss:
