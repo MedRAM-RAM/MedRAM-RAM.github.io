@@ -189,7 +189,7 @@ async function fetchWatchlist() {
             return;
         }
     }
-    const response = await fetch('https://api.trakt.tv/users/me/watchlist/shows', {
+    const response = await fetch('https://cors-anywhere.herokuapp.com/https://api.trakt.tv/users/me/watchlist/shows', {
         headers: {
             'Authorization': `Bearer ${traktAccessToken}`,
             'Content-Type': 'application/json',
