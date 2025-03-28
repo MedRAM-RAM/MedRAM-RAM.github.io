@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Callback</title>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            fetch('https://api.trakt.tv/oauth/token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    code: code,
+                    client_id: 'your_trakt_client_id', // استبدل بمفتاح Trakt API
+                    client_secret: 'your_trakt_client_secret', // استبدل بسر Trakt API
+                    redirect_uri: 'https://yourusername.github.io/your-repo/callback.html',
+                    grant_type: 'authorization_code'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('trakt_access_token', data.access_token);
+                window.location.href = 'https://yourusername.github.io/your-repo/';
+            });
+        }
+    </script>
+</head>
+<body>
+    <p>جاري تسجيل الدخول...</p>
+</body>
+</html>
