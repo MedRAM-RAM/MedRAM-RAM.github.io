@@ -61,7 +61,7 @@ async function generateRSS() {
 <rss version="2.0">
     <channel>
         <title>Watchlist Torrents</title>
-        <link>https://yourusername.github.io/your-repo/</link>
+        <link>https://medram-ram.github.io/</link>
         <description>تورنتات من قائمة المراقبة في Trakt.tv</description>
         <language>ar</language>`;
 
