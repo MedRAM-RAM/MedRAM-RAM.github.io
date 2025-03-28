@@ -14,9 +14,16 @@
     <header>
         <h1>فهرسة تورنتات EZTV</h1>
         <button id="toggleDarkMode">الوضع المظلم</button>
+       <!-- داخل قسم header -->
         <div id="searchForm">
             <input type="text" id="title" placeholder="أدخل عنوان المسلسل">
             <button id="searchButton"><i class="fas fa-search"></i></button>
+            <button id="rssButton" style="display: none;"><i class="fas fa-rss"></i> RSS</button>
+        </div>
+        <!-- داخل قسم النتائج -->
+        <div id="rssLinks" style="display: none;">
+            <h3>روابط RSS:</h3>
+            <div id="dynamicRss"></div>
         </div>
         <button id="toggleSortOptions" style="display: none">خيارات الفرز</button>
         <div id="sortOptions">
