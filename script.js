@@ -145,37 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return torrentDiv;
     }
-    // داخل DOMContentLoaded
-    const rssButton = document.getElementById('rssButton');
-    let currentImdbId = null;
-    
-    // إظهار/إخفاء زر RSS بناءً على النتائج
-    function toggleRSSButton(show) {
-      rssButton.style.display = show ? 'flex' : 'none';
-    }
-    // إنشاء رابط RSS
-    function generateRSSLink(imdbId) {
-      return `https://eztvx.to/api/get-torrents?imdb_id=${imdbId}&limit=100`;
-    }
-    // حدث النقر على زر RSS
-    rssButton.addEventListener('click', () => {
-      if (currentImdbId) {
-        const rssUrl = generateRSSLink(currentImdbId);
-        navigator.clipboard.writeText(rssUrl).then(() => {
-          alert('تم نسخ رابط RSS إلى الحافظة!');
-          });
-          }
-    });
-    
-    // في دالة fetchTorrents، عند نجاح البحث:
+    // داخل دالة fetchTorrents بعد نجاح البحث:
     const rssLinkDiv = document.getElementById('dynamicRss');
-    const rssUrl = `https://raw.githubusercontent.com/username/repo/main/public/rss/${data.imdbID}.xml`;
+    const rssUrl = `https://raw.githubusercontent.com/username/repo/main/public/rss/${currentImdbId}.xml`; // ✅ استخدم المتغير currentImdbId
     rssLinkDiv.innerHTML = `<a href="${rssUrl}" target="_blank">${data.Title} RSS</a>`;
     document.getElementById('rssLinks').style.display = 'block';
-    currentImdbId = data.imdbID.replace('tt', '');
-    toggleRSSButton(true); // إظهار زر RSS
-    
-    // في حالة عدم وجود نتائج:
-    toggleRssButton(false);
-  
 });
