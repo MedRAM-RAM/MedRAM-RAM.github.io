@@ -2,7 +2,7 @@ name: RSS Updater
 
 on:
   schedule:
-    - cron: "0 * * * *"  # كل ساعة
+    - cron: "*/6 * * * *"  # كل 3 دقائق
   workflow_dispatch:     # تشغيل يدوي
 
 jobs:
