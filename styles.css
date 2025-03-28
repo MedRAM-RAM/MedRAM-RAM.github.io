@@ -71,6 +71,27 @@ header {
     background-color: #b20710;
 }
 
+#rssButton {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#rssButton:hover {
+    background-color: #218838;
+}
+
+#rssButton i {
+    font-size: 1.2rem;
+}
+
 /* الجسم الرئيسي */
 main {
     padding: 80px 10px 20px;
