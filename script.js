@@ -78,6 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
 
                     const totalPages = Math.ceil(totalResults / resultsPerPage);
+                            // إضافة روابط RSS
+                            const rssLinkDiv = document.getElementById('dynamicRss');
+                            const rssUrl = `https://raw.githubusercontent.com/username/repo/main/public/rss/tt${currentImdbId}.xml`; // ⚠️ تأكد من إضافة "tt"
+                            rssLinkDiv.innerHTML = `<a href="${rssUrl}" target="_blank">RSS Link</a>`;
+                            document.getElementById('rssLinks').style.display = 'block';
 
                     torrentsData.forEach(torrent => {
                         const torrentElement = createTorrentElement(torrent, formatFileSize);
@@ -145,9 +150,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return torrentDiv;
     }
-    // داخل دالة fetchTorrents بعد نجاح البحث:
-    const rssLinkDiv = document.getElementById('dynamicRss');
-    const rssUrl = `https://raw.githubusercontent.com/username/repo/main/public/rss/${currentImdbId}.xml`; // ✅ استخدم المتغير currentImdbId
-    rssLinkDiv.innerHTML = `<a href="${rssUrl}" target="_blank">${data.Title} RSS</a>`;
-    document.getElementById('rssLinks').style.display = 'block';
 });
