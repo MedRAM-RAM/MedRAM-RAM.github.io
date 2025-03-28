@@ -1,0 +1,32 @@
+name: RSS Updater
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # كل ساعة
+  workflow_dispatch:     # تشغيل يدوي
+
+jobs:
+  generate-rss:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install axios
+
+      - name: Generate RSS
+        run: node scripts/rss-generator.js
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add public/rss/*.xml
+          git commit -m "Update RSS feeds"
+          git push
