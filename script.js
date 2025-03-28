@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const totalPages = Math.ceil(totalResults / resultsPerPage);
                             // إضافة روابط RSS
                             const rssLinkDiv = document.getElementById('dynamicRss');
-                            const rssUrl = `https://raw.githubusercontent.com/medram-ram/medram-ram/master/public/rss/tt${currentImdbId}.xml`; // ⚠️ تأكد من إضافة "tt"
+                            const rssUrl = `https://raw.githubusercontent.com/medram-ram/medram-ram.github.io/master/public/rss/tt${currentImdbId}.xml`; // ⚠️ تأكد من إضافة "tt"
                             rssLinkDiv.innerHTML = `<a href="${rssUrl}" target="_blank">RSS Link</a>`;
                             document.getElementById('rssLinks').style.display = 'block';
 
