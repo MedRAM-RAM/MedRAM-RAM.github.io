@@ -1,34 +1,29 @@
-name: RSS Updater
-
+name: Update RSS Feed
 on:
   schedule:
-    - cron: "*/6 * * * *"  # كل 3 دقائق
-  workflow_dispatch:     # تشغيل يدوي
-  repository_dispatch:
-    types: [trigger-rss-update]
+    - cron: '*/5 * * * *' # كل 5 دقائق
+  workflow_dispatch: # للتشغيل اليدوي
 
 jobs:
-  generate-rss:
+  update-rss:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
-
-      - name: Install Dependencies
+          node-version: '16'
+      - name: Install dependencies
         run: npm install axios
-
       - name: Generate RSS
-        run: node scripts/rss-generator.js
-
-      - name: Commit and Push
+        run: node generate-rss.js
+        env:
+          TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
+          TRAKT_ACCESS_TOKEN: ${{ secrets.TRAKT_ACCESS_TOKEN }}
+      - name: Commit changes
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add public/rss/*.xml
-          git commit -m "Update RSS feeds"
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add rss.xml
+          git commit -m 'Update RSS feed' || echo "No changes to commit"
           git push
