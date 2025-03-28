@@ -78,11 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     statsDiv.innerHTML = `<p>عدد النتائج الإجمالي: ${totalResults}</p>`;
 
                     const totalPages = Math.ceil(totalResults / resultsPerPage);
-                            // إضافة روابط RSS
-                            const rssLinkDiv = document.getElementById('dynamicRss');
-                            const rssUrl = `https://raw.githubusercontent.com/medram-ram/medram-ram.github.io/master/public/rss/tt${currentImdbId}.xml`; // ⚠️ تأكد من إضافة "tt"
-                            rssLinkDiv.innerHTML = `<a href="${rssUrl}" target="_blank">RSS Link</a>`;
-                            document.getElementById('rssLinks').style.display = 'block';
 
                     torrentsData.forEach(torrent => {
                         const torrentElement = createTorrentElement(torrent, formatFileSize);
@@ -150,4 +145,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return torrentDiv;
     }
+           // إضافة متغيرات لـ Trakt.tv
+const traktClientId = '3883c8bf5b8823102e49f1e3f142074732fcf5fc642688638dc88eec523a6b3f'; // استبدل بمفتاح API الخاص بك
+const traktClientSecret = 'e70657df8691d788bdfdbb7c95028459db5b919b0091f94795786475ef481703'; // استبدل بالسر
+let traktAccessToken = null;
+
+// دالة لتسجيل الدخول باستخدام OAuth
+function loginToTrakt() {
+    const redirectUri = 'https://medram-ram.github.io/callback.html'; // صفحة إعادة توجيه
+    const authUrl = `https://trakt.tv/oauth/authorize?response_type=code&client_id=${traktClientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    window.location.href = authUrl;
+}
+
+// في صفحة callback.html، استخرج رمز الوصول
+async function handleTraktCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code) {
+        const response = await fetch('https://api.trakt.tv/oauth/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                code: code,
+                client_id: traktClientId,
+                client_secret: trakClientSecret,
+                redirect_uri: 'https://medram-ram.github.io/callback.html',
+                grant_type: 'authorization_code'
+            })
+        });
+        const data = await response.json();
+        traktAccessToken = data.access_token;
+        localStorage.setItem('trakt_access_token', traktAccessToken);
+        window.location.href = 'index.html'; // العودة للصفحة الرئيسية
+    }
+}
+
+// دالة لجلب قائمة المراقبة
+async function fetchWatchlist() {
+    if (!traktAccessToken) {
+        traktAccessToken = localStorage.getItem('trakt_access_token');
+        if (!traktAccessToken) {
+            loginToTrakt();
+            return;
+        }
+    }
+    const response = await fetch('https://api.trakt.tv/users/me/watchlist/shows', {
+        headers: {
+            'Authorization': `Bearer ${traktAccessToken}`,
+            'Content-Type': 'application/json',
+            'trakt-api-version': '2',
+            'trakt-api-key': traktClientId
+        }
+    });
+    const watchlist = await response.json();
+    return watchlist.map(item => ({
+        imdbId: item.show.ids.imdb.replace('tt', ''),
+        title: item.show.title
+    }));
+}
+
+// دالة لجلب التورنتات لكل عنصر في القائمة
+async function fetchTorrentsForWatchlist() {
+    const watchlist = await fetchWatchlist();
+    const torrents = [];
+    for (const item of watchlist) {
+        const res = await fetch(`https://eztvx.to/api/get-torrents?imdb_id=${item.imdbId}&limit=10&page=1`);
+        const data = await res.json();
+        if (data.torrents) {
+            torrents.push(...data.torrents.map(torrent => ({
+                ...torrent,
+                showTitle: item.title
+            })));
+        }
+    }
+    return torrents;
+}
+
+function generateRSS(torrents) {
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Watchlist Torrents</title>
+        <link>https://yourusername.github.io/your-repo/</link>
+        <description>Torrents from your Trakt.tv watchlist</description>
+        <language>ar</language>`;
+
+    torrents.forEach(torrent => {
+        const parsed = window.parseTorrentTitle(torrent.title);
+        if (parsed) {
+            xml += `
+        <item>
+            <title>${parsed.showName} S${parsed.season.toString().padStart(2, '0')}E${parsed.episode.toString().padStart(2, '0')}${parsed.episodeTitle ? ' - ' + parsed.episodeTitle : ''}</title>
+            <link>${torrent.magnet_url}</link>
+            <description>جودة: ${parsed.quality || 'غير محدد'} | حجم: ${formatFileSize(torrent.size_bytes)}</description>
+            <pubDate>${new Date(torrent.date_released_unix * 1000).toUTCString()}</pubDate>
+            <guid>${torrent.magnet_url}</guid>
+        </item>`;
+        }
+    });
+
+    xml += `
+    </channel>
+</rss>`;
+    return xml;
+}
 });
