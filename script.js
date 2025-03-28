@@ -226,7 +226,7 @@ function generateRSS(torrents) {
 <rss version="2.0">
     <channel>
         <title>Watchlist Torrents</title>
-        <link>https://yourusername.github.io/your-repo/</link>
+        <link>https://medram-ram.github.io/callback</link>
         <description>Torrents from your Trakt.tv watchlist</description>
         <language>ar</language>`;
 
