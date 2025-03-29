@@ -1,0 +1,33 @@
+name: Update RSS Feed
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # يعمل كل 5 دقائق
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate RSS feed
+        run: node rss-generator.js
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add rss.xml
+          git commit -m 'تحديث خلاصة RSS' || echo "لا تغييرات للرفع"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
