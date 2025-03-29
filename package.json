@@ -1,7 +1,13 @@
 {
+  "name": "rss-generator",
+  "version": "1.0.0",
+  "description": "Generate RSS feed for EZTV torrents",
+  "main": "rss-generator.js",
   "dependencies": {
-    "axios": "^1.8.4",
-    "node-cron": "^3.0.3",
-    "xmlbuilder2": "^3.1.1"
+    "axios": "^1.6.0",
+    "xmlbuilder2": "^3.1.0"
+  },
+  "scripts": {
+    "start": "node rss-generator.js"
   }
 }
