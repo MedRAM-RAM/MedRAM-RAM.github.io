@@ -145,4 +145,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return torrentDiv;
     }
+    document.getElementById('saveRssSettings').addEventListener('click', () => {
+          const input = document.getElementById('rssTitle').value.trim();
+            if (input.startsWith('tt')) {
+                // افترض أنه معرف IMDb
+                    fetch('/save-rss', {
+                          method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({ imdbId: input.replace('tt', '') })
+                                          });
+                                            } else {
+                                                // ابحث عن معرف IMDb باستخدام OMDb
+                                                    fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(input)}&apikey=${omdbApiKey}`)
+                                                          .then(response => response.json())
+                                                                .then(data => {
+                                                                        if (data.Response === 'True' && data.Type === 'series') {
+                                                                                  fetch('/save-rss', {
+                                                                                              method: 'POST',
+                                                                                                          headers: { 'Content-Type': 'application/json' },
+                                                                                                                      body: JSON.stringify({ imdbId: data.imdbID.replace('tt', '') })
+                                                                                                                                });
+                                                                                                                                        }
+                                                                                                                                              });
+                                                                                                                                                }
+    })
 });
