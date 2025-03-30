@@ -112,15 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // التحقق من زر تبديل الوضع المظلم وإضافة مستمع الحدث
-    if (toggleDarkModeButton) {
-        toggleDarkModeButton.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-        });
-    } else {
-        console.error('زر تبديل الوضع المظلم غير موجود');
-    }
-
     // دالة لإنشاء عنصر تورنت
     function createTorrentElement(torrent, formatFileSize) {
         const parsed = window.parseTorrentTitle(torrent.title);
@@ -153,7 +144,5 @@ document.getElementById('saveRssSettings').addEventListener('click', () => {
   } else {
     data.title = input;
   }
-  // تنبيه المستخدم لتحديث config.json يدويًا
-  alert('يرجى تحديث ملف config.json يدويًا باستخدام القيم التالية:\n' + JSON.stringify(data, null, 2));
 });
 });
