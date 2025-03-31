@@ -1,0 +1,33 @@
+name: Generate RSS Feed
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # تشغيل يومي عند منتصف الليل lبتوقيت UTC
+  workflow_dispatch:
+
+jobs:
+  generate_rss:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Generate RSS Feed
+        run: |
+          # استبدل YOUR_IMDB_ID بمعرف IMDb المطلوب (بدون بادئة "tt")
+          python generate_rss.py --imdb YOUR_IMDB_ID --page 1 --output feed.xml
+
+      - name: Commit RSS feed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add feed.xml
+          git commit -m "تحديث خلاصة RSS" || echo "لا توجد تغييرات لتثبيتها"
+          git push
