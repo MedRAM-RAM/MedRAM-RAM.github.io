@@ -28,7 +28,7 @@ def generate_rss_feed(torrents, feed_title="Torrent RSS Feed"):
     channel = ET.SubElement(rss, "channel")
     ET.SubElement(channel, "title").text = feed_title
     ET.SubElement(channel, "description").text = "خلاصة RSS لنتائج تورنت البحث"
-    ET.SubElement(channel, "link").text = "https://yourwebsite.com"  # عدل الرابط حسب الحاجة
+    ET.SubElement(channel, "link").text = "https://medram-ram.github.io"  # عدل الرابط حسب الحاجة
 
     for torrent in torrents:
         item = ET.SubElement(channel, "item")
