@@ -2,7 +2,7 @@ name: Generate RSS Feed
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # تشغيل يومي عند منتصف الليل lبتوقيت UTC
+    - cron: '*/5 * * * *'  # تشغيل كل 5 دقائق الليل lبتوقيت UTC
   workflow_dispatch:
 
 jobs:
