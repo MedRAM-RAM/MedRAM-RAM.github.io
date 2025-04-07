@@ -1,24 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تتبع المسلسلات والأفلام</title>
+    <title>Torrent Searcher</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <header>
-        <h1>تتبع المسلسلات والأفلام</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="ابحث...">
-            <button onclick="searchMedia()"><i class="fas fa-search"></i>
-            </button>
+    <div class="container">
+        <h1>🔍 Torrent Search</h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث عن أفلام، مسلسلات...">
+            <button onclick="searchTorrents()">بحث</button>
         </div>
-    </header>
-    <main>
-        <div id="results" class="results-container"></div>
-    </main>
+        <div id="results"></div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
