@@ -1,19 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html dir="rtl" lang="ar">
 <head>
-    <title>Torrent Searcher</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>محرك بحث التورنت المتقدم</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ابحث عن ملفات التورنت بسهولة مع خيارات التصفية والترتيب المتقدمة">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>🔍 Torrent Search</h1>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ابحث عن أفلام، مسلسلات...">
-            <button onclick="searchTorrents()">بحث</button>
+        <header>
+            <h1>🪐 محرك بحث التورنت الذكي</h1>
+            <div class="search-box">
+                <input type="search" 
+                       id="searchInput" 
+                       placeholder="أدخل كلمات البحث مثل: أفلام 2024">
+                <button onclick="handleSearch()">بحث</button>
+            </div>
+            
+            <div class="filters">
+                <select id="sortBy" onchange="applyFilters()">
+                    <option value="seeders">البذور (الأكثر)</option>
+                    <option value="date">الأحدث</option>
+                    <option value="size">الحجم (الأصغر)</option>
+                </select>
+            </div>
+        </header>
+
+        <div class="help-section">
+            <details>
+                <summary>إرشادات الاستخدام</summary>
+                <ul>
+                    <li>استخدم علامات التنصيص للبحث الدقيق: "Game of Thrones"</li>
+                    <li>اضغط زر Enter لبدء البحث</li>
+                    <li>انقر على الأيقونات للتحميل المباشر</li>
+                </ul>
+            </details>
         </div>
+
+        <div id="stats"></div>
         <div id="results"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
