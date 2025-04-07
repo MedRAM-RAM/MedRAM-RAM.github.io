@@ -1,44 +1,19 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>محرك بحث التورنت المتقدم</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ابحث عن ملفات التورنت بسهولة مع خيارات التصفية والترتيب المتقدمة">
+    <title>محرك بحث التورنت</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🪐 محرك بحث التورنت الذكي</h1>
-            <div class="search-box">
-                <input type="search" 
-                       id="searchInput" 
-                       placeholder="أدخل كلمات البحث مثل: أفلام 2024">
-                <button onclick="handleSearch()">بحث</button>
-            </div>
-            
-            <div class="filters">
-                <select id="sortBy" onchange="applyFilters()">
-                    <option value="seeders">البذور (الأكثر)</option>
-                    <option value="date">الأحدث</option>
-                    <option value="size">الحجم (الأصغر)</option>
-                </select>
-            </div>
-        </header>
-
-        <div class="help-section">
-            <details>
-                <summary>إرشادات الاستخدام</summary>
-                <ul>
-                    <li>استخدم علامات التنصيص للبحث الدقيق: "Game of Thrones"</li>
-                    <li>اضغط زر Enter لبدء البحث</li>
-                    <li>انقر على الأيقونات للتحميل المباشر</li>
-                </ul>
-            </details>
+        <h1>بحث التورنت</h1>
+        <div class="search-box">
+            <input type="text" id="query" placeholder="ابحث هنا...">
+            <input type="number" id="limit" value="10" min="1" max="50">
+            <button onclick="searchTorrents()">بحث</button>
         </div>
-
-        <div id="stats"></div>
         <div id="results"></div>
     </div>
 
