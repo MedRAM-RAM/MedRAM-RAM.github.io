@@ -1,57 +1,26 @@
-const apiKey = 'e70657df8691d788bdfdbb7c95028459db5b919b0091f94795786475ef481703'; // استبدل هذا بمفتاح API الخاص بك
-const baseUrl = 'https://api.trakt.tv';
-
-async function searchMedia() {
+async function searchTorrents() {
     const query = document.getElementById('searchInput').value;
-    if (!query) {
-        alert('يرجى إدخال اسم للبحث');
-        return;
-    }
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = 'جاري البحث...';
 
     try {
-        const response = await fetch(`${baseUrl}/search/movie,show?query=${query}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'trakt-api-version': '2',
-                'trakt-api-key': apiKey
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('فشل في جلب البيانات');
-        }
-
+        const response = await fetch(`https://torrent-api-py.vercel.app/api/search/${query}?limit=50`);
         const data = await response.json();
-        displayResults(data);
+        
+        resultsDiv.innerHTML = '';
+        data.data.forEach(item => {
+            const torrentHtml = `
+                <div class="torrent-item">
+                    <h3>${item.name}</h3>
+                    <p>📁 الحجم: ${item.size}</p>
+                    <p>📆 تاريخ التحميل: ${item.date}</p>
+                    <p>🔗 البذور: ${item.seeders} - ⬇️ اللاتش: ${item.leechers}</p>
+                    <a href="${item.magnet}" target="_blank" class="download-btn">تحميل المغناطيس</a>
+                </div>
+            `;
+            resultsDiv.innerHTML += torrentHtml;
+        });
     } catch (error) {
-        console.error('خطأ:', error);
-        document.getElementById('results').innerHTML = '<p>حدث خطأ أثناء البحث.</p>';
+        resultsDiv.innerHTML = '⚠️ خطأ في جلب النتائج';
     }
-}
-
-function displayResults(data) {
-    const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = '';
-
-    if (data.length === 0) {
-        resultsContainer.innerHTML = '<p>لم يتم العثور على نتائج.</p>';
-        return;
-    }
-
-    data.forEach(item => {
-        const type = item.type;
-        const media = item[type];
-        const title = media.title;
-        const year = media.year || 'غير معروف';
-        const overview = media.overview || 'لا يوجد وصف';
-
-        const resultItem = document.createElement('div');
-        resultItem.classList.add('result-item');
-        resultItem.innerHTML = `
-            <h3>${title}</h3>
-            <p>السنة: ${year}</p>
-            <p>${overview.substring(0, 50)}...</p>
-        `;
-        resultsContainer.appendChild(resultItem);
-    });
 }
