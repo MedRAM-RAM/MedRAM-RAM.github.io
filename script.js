@@ -1,23 +1,58 @@
-async function searchTorrents() {
-    const query = document.getElementById('query').value;
-    const limit = document.getElementById('limit').value;
-    const resultsDiv = document.getElementById('results');
+window.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const moviesContainer = document.getElementById('moviesContainer');
     
-    if(!query) return alert('الرجاء إدخال مصطلح البحث');
-    
+    // تهيئة البحث
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(async () => {
+            const movies = await fetchMovies(e.target.value);
+            displayMovies(movies);
+        }, 500);
+    });
+
+    // تحميل الأفلام الأولية
+    loadInitialMovies();
+});
+
+async function loadInitialMovies() {
+    const movies = await fetchMovies();
+    displayMovies(movies);
+}
+
+async function fetchMovies(query = '') {
     try {
-        const response = await fetch(`https://torrent-api-4qib.onrender.com/api?query=${query}&limit=${limit}`);
+        const url = `https://yts.mx/api/v2/list_movies.json?query_term=${query}&sort_by=year`;
+        const response = await fetch(url);
         const data = await response.json();
-        
-        resultsDiv.innerHTML = data.map(torrent => `
-            <div class="torrent-item">
-                <h3>${torrent.name}</h3>
-                <p>الحجم: ${torrent.size}</p>
-                <p>البذور: ${torrent.seeds}</p>
-                <a class="magnet-link" href="${torrent.magnet}">تحميل المغناطيس</a>
-            </div>
-        `).join('');
+        return data.data?.movies || [];
     } catch (error) {
-        resultsDiv.innerHTML = '<p>حدث خطأ أثناء جلب النتائج</p>';
+        console.error('حدث خطأ في جلب البيانات:', error);
+        return [];
     }
+}
+
+function displayMovies(movies) {
+    moviesContainer.innerHTML = movies.map(movie => `
+        <div class="movie-card">
+            <img src="${movie.medium_cover_image}" class="movie-poster" alt="${movie.title}">
+            <div class="movie-info">
+                <h3>${movie.title}</h3>
+                <p>📅 السنة: ${movie.year}</p>
+                <p>⭐ التقييم: ${movie.rating}/10</p>
+                
+                <div class="torrents-list">
+                    ${movie.torrents.map(torrent => `
+                        <a href="${torrent.url}" 
+                           class="torrent-btn quality-${torrent.quality}"
+                           download>
+                            🎬 ${torrent.quality} 
+                            <small>(${torrent.size})</small>
+                        </a>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
 }
