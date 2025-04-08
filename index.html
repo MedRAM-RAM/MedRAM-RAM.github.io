@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محرك بحث التورنت</title>
+    <title>متصفح تورنت YTS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>بحث التورنت</h1>
-        <div class="search-box">
-            <input type="text" id="query" placeholder="ابحث هنا...">
-            <input type="number" id="limit" value="10" min="1" max="50">
-            <button onclick="searchTorrents()">بحث</button>
-        </div>
-        <div id="results"></div>
-    </div>
+    <header class="main-header">
+        <h1>🎬 متصفح أفلام YTS</h1>
+        <input type="text" id="searchInput" placeholder="ابحث عن فيلم...">
+    </header>
+
+    <main class="container">
+        <div id="moviesContainer" class="movies-grid"></div>
+    </main>
 
     <script src="script.js"></script>
 </body>
