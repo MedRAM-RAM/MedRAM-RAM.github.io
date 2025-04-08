@@ -44,10 +44,9 @@ function displayMovies(movies) {
                 
                 <div class="torrents-list">
                     ${movie.torrents.map(torrent => `
-                        <a href="${torrent.url}" 
-                           class="torrent-btn quality-${torrent.quality}"
-                           download>
-                            🎬 ${torrent.quality} 
+                        <a href="${generateMagnetLink(torrent, movie.title)}" 
+                           class="torrent-btn quality-${torrent.quality}">
+                            ${torrent.quality} 
                             <small>(${torrent.size})</small>
                         </a>
                     `).join('')}
@@ -55,4 +54,23 @@ function displayMovies(movies) {
             </div>
         </div>
     `).join('');
+}
+
+// دالة إنشاء رابط المغناطيس
+function generateMagnetLink(torrent, title) {
+    const trackers = [
+        'udp://open.demonii.com:1337/announce',
+        'udp://tracker.openbittorrent.com:80/announce',
+        'udp://tracker.coppersurfer.tk:6969/announce',
+        'udp://glotorrents.pw:6969/announce',
+        'udp://tracker.opentrackr.org:1337/announce',
+        'udp://torrent.gresille.org:80/announce',
+        'udp://p4p.arenabg.com:1337/announce',
+        'udp://tracker.leechers-paradise.org:6969/announce'
+    ];
+
+    const encodedTitle = encodeURIComponent(title);
+    const trackerParams = trackers.map(t => `tr=${encodeURIComponent(t)}`).join('&');
+    
+    return `magnet:?xt=urn:btih:${torrent.hash}&dn=${encodedTitle}&${trackerParams}`;
 }
