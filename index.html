@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متصفح تورنت YTS</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>متصفح تورنت YTS</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="main-header">
-        <h1>🎬 متصفح أفلام YTS</h1>
-        <input type="text" id="searchInput" placeholder="ابحث عن فيلم...">
-        <div class="magnet-help">
-            ⚡ لاستخدام روابط المغناطيس:
-            1. تأكد من وجود تطبيق تورنت مثبت
-            2. انقر على أي رابط مغناطيسي
-            3. سيبدأ التحميل تلقائيًا
-        </div>
-    </header>
-    
-    <main class="container">
-        <div id="moviesContainer" class="movies-grid"></div>
-    </main>
+  <header class="main-header">
+    <h1>🎬 متصفح أفلام YTS</h1>
+    <form id="searchForm" action="" role="search" aria-label="بحث عن فيلم">
+      <input type="search" id="searchInput" name="q" placeholder="ابحث عن فيلم..." aria-label="إدخال اسم الفيلم" />
+      <button type="submit">🔍</button>
+    </form>
+    <div id="loadingIndicator" class="loading" aria-live="polite" hidden>جاري التحميل...</div>
+    <div class="magnet-help">
+      ⚡ لاستخدام روابط المغناطيس:
+      <ol>
+        <li>تأكد من وجود تطبيق تورنت مثبت</li>
+        <li>انقر على أي رابط مغناطيسي</li>
+        <li>سيبدأ التحميل تلقائيًا</li>
+      </ol>
+    </div>
+  </header>
 
-    <script src="script.js"></script>
+  <main>
+    <div id="moviesContainer" class="movies-grid" role="region" aria-live="polite"></div>
+    <button id="loadMoreBtn" class="load-more" hidden>تحميل المزيد</button>
+    <div id="noResults" class="no-results" hidden>⚠️ لا توجد نتائج.</div>
+  </main>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
