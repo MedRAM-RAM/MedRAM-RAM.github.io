@@ -80,6 +80,17 @@ if (urlParams.has('q')) {
   currentQuery = urlParams.get('q');
   searchInput.value = currentQuery;
 }
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBtn').hidden = false;
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  deferredPrompt.prompt();
+  const choice = await deferredPrompt.userChoice;
+  console.log(choice.outcome);
+});
 
 // --------------------
 // 6. معالجة إرسال نموذج البحث
