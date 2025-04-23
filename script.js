@@ -1,4 +1,4 @@
-// script.js (محدَّث كامل مع دعم Web Share Target، Service Worker، وقراءة رابط IMDb)
+// script.js (محدَّث كامل مع دعم Web Share Target، Service Worker، تثبيت PWA، وقراءة رابط IMDb)
 
 // --------------------
 // 1. إعدادات API
@@ -59,9 +59,11 @@ const moviesContainer  = document.getElementById('moviesContainer');
 const loadingIndicator = document.getElementById('loadingIndicator');
 const loadMoreBtn      = document.getElementById('loadMoreBtn');
 const noResults        = document.getElementById('noResults');
+const installBtn       = document.getElementById('installBtn'); // زر التثبيت
 
 let currentQuery = '';
 let currentPage  = 1;
+let deferredPrompt; // لحدث beforeinstallprompt
 
 // --------------------
 // 4. تسجيل Service Worker (لتفعيل PWA و Web Share Target)
@@ -80,17 +82,6 @@ if (urlParams.has('q')) {
   currentQuery = urlParams.get('q');
   searchInput.value = currentQuery;
 }
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBtn').hidden = false;
-});
-document.getElementById('installBtn').addEventListener('click', async () => {
-  deferredPrompt.prompt();
-  const choice = await deferredPrompt.userChoice;
-  console.log(choice.outcome);
-});
 
 // --------------------
 // 6. معالجة إرسال نموذج البحث
@@ -120,7 +111,26 @@ function updateURL(query) {
 }
 
 // --------------------
-// 9. جلب البيانات وعرضها
+// 9. التعامل مع حدث قبل التثبيت
+// --------------------
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (installBtn) installBtn.hidden = false; // إظهار زر التثبيت
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    installBtn.hidden = true;
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    console.log('User choice:', choice.outcome);
+    deferredPrompt = null;
+  });
+}
+
+// --------------------
+// 10. جلب البيانات وعرضها
 // --------------------
 const fetchAndDisplay = debounce(async (append = false) => {
   if (!append) {
@@ -130,7 +140,7 @@ const fetchAndDisplay = debounce(async (append = false) => {
   }
   loadingIndicator.hidden = false;
 
-  // 9.1: التحقق من رابط IMDb في currentQuery
+  // 10.1: التحقق من رابط IMDb في currentQuery
   const imdbMatch = currentQuery.match(/tt\d+/);
   if (imdbMatch) {
     try {
@@ -138,9 +148,8 @@ const fetchAndDisplay = debounce(async (append = false) => {
       const res = await fetch(detailsUrl);
       const json = await res.json();
       const movie = json.data.movie;
-      if (movie) {
-        displayMovies([movie], false);
-      } else {
+      if (movie) displayMovies([movie], false);
+      else {
         noResults.textContent = '⚠️ لا توجد بيانات لهذا المعرف IMDb';
         noResults.hidden = false;
       }
@@ -154,7 +163,7 @@ const fetchAndDisplay = debounce(async (append = false) => {
     return;
   }
 
-  // 9.2: بحث عام عبر query_term
+  // 10.2: بحث عام عبر query_term
   const params = new URLSearchParams({
     ...API.defaultParams,
     query_term: currentQuery,
@@ -165,9 +174,7 @@ const fetchAndDisplay = debounce(async (append = false) => {
     const res = await fetch(`${API.baseUrl}${API.endpoints.list}?${params}`);
     const data = await res.json();
     const movies = data.data.movies || [];
-    if (!append && movies.length === 0) {
-      noResults.hidden = false;
-    }
+    if (!append && movies.length === 0) noResults.hidden = false;
     displayMovies(movies, append);
     loadMoreBtn.hidden = movies.length < API.defaultParams.limit;
   } catch (err) {
@@ -180,7 +187,7 @@ const fetchAndDisplay = debounce(async (append = false) => {
 }, 300);
 
 // --------------------
-// 10. دالة عرض الأفلام
+// 11. دالة عرض الأفلام
 // --------------------
 function displayMovies(movies, append) {
   const fragment = document.createDocumentFragment();
@@ -218,14 +225,11 @@ function displayMovies(movies, append) {
     fragment.appendChild(card);
   });
 
-  if (append) {
-    moviesContainer.appendChild(fragment);
-  } else {
-    moviesContainer.replaceChildren(fragment);
-  }
+  if (append) moviesContainer.appendChild(fragment);
+  else moviesContainer.replaceChildren(fragment);
 }
 
 // --------------------
-// 11. بدء العملية الأولى
+// 12. بدء العملية الأولى
 // --------------------
 fetchAndDisplay();
