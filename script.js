@@ -1,4 +1,4 @@
-// script.js (محدَّث كامل مع دعم Web Share Target وقراءة رابط IMDb)
+// script.js (محدَّث كامل مع دعم Web Share Target، Service Worker، وقراءة رابط IMDb)
 
 // --------------------
 // 1. إعدادات API
@@ -68,7 +68,8 @@ let currentPage  = 1;
 // --------------------
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
-    .catch(err => console.warn('ServiceWorker registration failed:', err));
+    .then(() => console.log('Service Worker registered'))
+    .catch(err => console.warn('SW registration failed:', err));
 }
 
 // --------------------
@@ -121,7 +122,6 @@ const fetchAndDisplay = debounce(async (append = false) => {
   // 9.1: التحقق من رابط IMDb في currentQuery
   const imdbMatch = currentQuery.match(/tt\d+/);
   if (imdbMatch) {
-    // Fetch by IMDb ID
     try {
       const detailsUrl = `${API.baseUrl}${API.endpoints.details}?imdb_id=${imdbMatch[0]}`;
       const res = await fetch(detailsUrl);
