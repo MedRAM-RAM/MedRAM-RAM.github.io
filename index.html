@@ -4,11 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>متصفح تورنت YTS</title>
+  <script src="https://apis.google.com/js/platform.js" async defer></script> <!-- منصة Google Sign-In SDK 11 -->
+  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com"/>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0f3460" />
 </head>
 <body>
+  <h2>تسجيل الدخول بحساب Google</h2>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- زر جاهز من Google 12 -->
   <header class="main-header">
     <h1>🎬 متصفح أفلام YTS</h1>
     <form id="searchForm" action="" role="search" aria-label="بحث عن فيلم">
