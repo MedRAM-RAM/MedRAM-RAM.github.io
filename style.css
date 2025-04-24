@@ -1,137 +1,20 @@
-:root {
-  --primary: #1a1a2e;
-  --secondary: #16213e;
-  --accent: #0f3460;
-  --text: #e6e6e6;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-}
-
-body {
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
-  color: var(--text);
-  min-height: 100vh;
-  line-height: 1.6;
-}
-
-.main-header {
-  text-align: center;
-  padding: 2rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-#searchForm {
-  display: inline-flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-#searchInput {
-  padding: 0.8rem;
-  border: none;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text);
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-}
-
-#searchInput:focus {
-  outline: none;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-}
-
-.loading {
-  margin-top: 1rem;
-  color: #ffeb3b;
-}
-
-.movies-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem 5%;
-}
-
-.movie-card {
-  background: linear-gradient(145deg, var(--secondary), var(--accent));
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.movie-card:hover {
-  transform: translateY(-5px);
-}
-
-.movie-poster {
-  width: 100%;
-  aspect-ratio: 2/3;
-  object-fit: cover;
-  border-bottom: 3px solid var(--primary);
-}
-
-.movie-info {
-  padding: 1.2rem;
-}
-
-.torrents-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.torrent-btn {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 20px;
-  background: var(--primary);
-  color: var(--text);
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.torrent-btn::before {
-  content: '🧲';
-}
-
-.quality-720p { background: #2a6099; }
-.quality-1080p { background: #3c8dad; }
-.quality-2160p { background: #4db39e; }
-
-.load-more {
-  display: block;
-  margin: 2rem auto;
-  padding: 0.8rem 2rem;
-  border: none;
-  border-radius: 25px;
-  background: var(--accent);
-  color: var(--text);
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.no-results {
-  text-align: center;
-  margin: 2rem;
-  font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-  .movies-grid {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-}
+/* عام */
+body { margin:0; font-family: 'Segoe UI',sans-serif; background: #16213e; color:#e6e6e6; }
+/* صفحة المصادقة */
+.auth-page { display:flex; justify-content:center; align-items:center; height:100vh; background: #0f3460; }
+.login-container { text-align:center; background:rgba(0,0,0,0.3); padding:2rem; border-radius:12px; }
+/* التطبيق */
+.app-page .main-header { text-align:center; padding:1rem; background:rgba(0,0,0,0.2); }
+.user-info { margin:1rem; }
+.user-avatar { width:40px; height:40px; border-radius:50%; }
+/* البحث */
+#searchForm { display:inline-flex; gap:.5rem; margin:1rem; }
+#searchInput { padding:.6rem; border-radius:20px; border:none; }
+/* شبكة الأفلام */
+.movies-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; padding:1rem; }
+.movie-card { background:rgba(15,52,96,0.8); border-radius:10px; overflow:hidden; }
+.movie-poster { width:100%; aspect-ratio:2/3; object-fit:cover; }
+/* أزرار */
+button, .torrent-btn { cursor:pointer; }
+/* Responsive */
+@media(max-width:768px){ .movies-grid{grid-template-columns:1fr;} }
