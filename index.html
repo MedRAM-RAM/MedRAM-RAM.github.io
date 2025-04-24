@@ -1,20 +1,34 @@
+ملف index.html محدث بالكامل
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>متصفح تورنت YTS</title>
-  <script src="https://apis.google.com/js/platform.js" async defer></script> <!-- منصة Google Sign-In SDK 11 -->
-  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com"/>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="/manifest.json" />
+  <!-- Manifest for PWA and Web Share Target -->
+  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0f3460" />
+
+  <!-- Google Sign-In Client ID -->
+  <meta name="google-signin-client_id" content="566285861664-pogmk4kjt3bk235uu22fe4dao9flttnr.apps.googleusercontent.com" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>تسجيل الدخول بحساب Google</h2>
-  <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- زر جاهز من Google 12 -->
   <header class="main-header">
     <h1>🎬 متصفح أفلام YTS</h1>
+
+    <!-- Google Sign-In Button -->
+    <div id="googleSignInBtn"></div>
+    <!-- User Info بعد تسجيل الدخول -->
+    <div id="userInfo" class="user-info"></div>
+
+    <!-- زر تثبيت التطبيق -->
+    <button id="installBtn" hidden>تثبيت التطبيق</button>
+
+    <!-- نموذج البحث -->
     <form id="searchForm" action="" role="search" aria-label="بحث عن فيلم">
       <input type="search" id="searchInput" name="q" placeholder="ابحث عن فيلم..." aria-label="إدخال اسم الفيلم" />
       <button type="submit">🔍</button>
@@ -34,9 +48,14 @@
     <div id="moviesContainer" class="movies-grid" role="region" aria-live="polite"></div>
     <button id="loadMoreBtn" class="load-more" hidden>تحميل المزيد</button>
     <div id="noResults" class="no-results" hidden>⚠️ لا توجد نتائج.</div>
-    <button id="installBtn" hidden>تثبيت التطبيق</button>
   </main>
 
   <script type="module" src="script.js"></script>
 </body>
 </html>
+
+
+---
+
+ملف script.js مرفق ضمن نفس الوثيقة سابقًا
+
