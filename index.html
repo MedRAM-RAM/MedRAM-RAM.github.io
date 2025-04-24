@@ -1,14 +1,9 @@
-ملف index.html محدث بالكامل
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>متصفح تورنت YTS</title>
-  <!-- Manifest for PWA and Web Share Target -->
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0f3460" />
+  <title>تسجيل الدخول – YTS Browser</title>
 
   <!-- Google Sign-In Client ID -->
   <meta name="google-signin-client_id" content="566285861664-pogmk4kjt3bk235uu22fe4dao9flttnr.apps.googleusercontent.com" />
@@ -16,46 +11,12 @@
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header class="main-header">
-    <h1>🎬 متصفح أفلام YTS</h1>
-
-    <!-- Google Sign-In Button -->
+<body class="auth-page">
+  <div class="login-container">
+    <h2>تسجيل الدخول</h2>
     <div id="googleSignInBtn"></div>
-    <!-- User Info بعد تسجيل الدخول -->
-    <div id="userInfo" class="user-info"></div>
+  </div>
 
-    <!-- زر تثبيت التطبيق -->
-    <button id="installBtn" hidden>تثبيت التطبيق</button>
-
-    <!-- نموذج البحث -->
-    <form id="searchForm" action="" role="search" aria-label="بحث عن فيلم">
-      <input type="search" id="searchInput" name="q" placeholder="ابحث عن فيلم..." aria-label="إدخال اسم الفيلم" />
-      <button type="submit">🔍</button>
-    </form>
-    <div id="loadingIndicator" class="loading" aria-live="polite" hidden>جاري التحميل...</div>
-    <div class="magnet-help">
-      ⚡ لاستخدام روابط المغناطيس:
-      <ol>
-        <li>تأكد من وجود تطبيق تورنت مثبت</li>
-        <li>انقر على أي رابط مغناطيسي</li>
-        <li>سيبدأ التحميل تلقائيًا</li>
-      </ol>
-    </div>
-  </header>
-
-  <main>
-    <div id="moviesContainer" class="movies-grid" role="region" aria-live="polite"></div>
-    <button id="loadMoreBtn" class="load-more" hidden>تحميل المزيد</button>
-    <div id="noResults" class="no-results" hidden>⚠️ لا توجد نتائج.</div>
-  </main>
-
-  <script type="module" src="script.js"></script>
+  <script src="auth.js"></script>
 </body>
 </html>
-
-
----
-
-ملف script.js مرفق ضمن نفس الوثيقة سابقًا
-
