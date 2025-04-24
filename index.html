@@ -3,20 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل الدخول – YTS Browser</title>
+  <title>متصفح أفلام YTS</title>
 
-  <!-- Google Sign-In Client ID -->
-  <meta name="google-signin-client_id" content="566285861664-pogmk4kjt3bk235uu22fe4dao9flttnr.apps.googleusercontent.com" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- PWA & Web Share Target -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f3460">
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-page">
-  <div class="login-container">
-    <h2>تسجيل الدخول</h2>
-    <div id="googleSignInBtn"></div>
-  </div>
+<body class="app-page">
+  <header class="main-header">
+    <h1>🎬 متصفح أفلام YTS</h1>
+    <button id="signoutBtn" hidden>تسجيل الخروج</button>
+    <div id="userInfo" class="user-info"></div>
+    <button id="installBtn" hidden>تثبيت التطبيق</button>
 
-  <script src="auth.js"></script>
+    <form id="searchForm">
+      <input type="search" id="searchInput" name="q" placeholder="ابحث عن فيلم..." />
+      <button type="submit">🔍</button>
+    </form>
+    <div id="loadingIndicator" hidden>جاري التحميل...</div>
+  </header>
+
+  <main>
+    <div id="moviesContainer" class="movies-grid"></div>
+    <button id="loadMoreBtn" hidden>تحميل المزيد</button>
+    <div id="noResults" hidden>⚠️ لا توجد نتائج.</div>
+  </main>
+
+  <script src="app.js" type="module"></script>
 </body>
 </html>
