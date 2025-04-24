@@ -1,21 +1,11 @@
 {
-  "name": "متصفح أفلام YTS",
-  "short_name": "YTS",
-  "description": "متصفح أفلام YTS مع روابط تورنت ومشاركة عبر IMDb",
-  "start_url": "/?q=",
-  "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#1a1a2e",
-  "theme_color": "#0f3460",
-  "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
-  ],
-  "share_target": {
-    "action": "/",
-    "method": "GET",
-    "enctype": "application/x-www-form-urlencoded",
-    "params": { "url": "q" }
-  }
+  "name":"متصفح أفلام YTS",
+  "short_name":"YTS",
+  "start_url":"index.html?q=",
+  "scope":"/",
+  "display":"standalone",
+  "background_color":"#1a1a2e",
+  "theme_color":"#0f3460",
+  "icons":[{"src":"icons/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icons/icon-512.png","sizes":"512x512","type":"image/png"}],
+  "share_target":{"action":"index.html","method":"GET","enctype":"application/x-www-form-urlencoded","params":{"url":"q"}}
 }
