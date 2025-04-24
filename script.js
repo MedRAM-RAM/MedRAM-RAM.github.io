@@ -15,7 +15,13 @@ const API = {
     page: 1
   }
 };
-
+function onSignIn(googleUser) {
+  const profile = googleUser.getBasicProfile();
+  console.log('ID:566285861664-pogmk4kjt3bk235uu22fe4dao9flttnr.apps.googleusercontent.com' + profile.getId());           // معرف المستخدم
+  console.log('Name: ' + profile.getName());       // اسم المستخدم
+  console.log('Email: ' + profile.getEmail());     // البريد الإلكتروني
+  document.body.innerHTML += `<p>مرحباً، ${profile.getName()}!</p>`;
+}
 // --------------------
 // 2. دوال مساعدة
 // --------------------
