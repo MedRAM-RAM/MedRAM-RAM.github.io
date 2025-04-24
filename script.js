@@ -15,12 +15,52 @@ const API = {
     page: 1
   }
 };
+// 1) نحمّل معطيات OAuth من JSON (يمكن نقله من ملف خارجي أو تضمينه هكذا)
+const oauthConfig = {
+  client_id:    "566285861664-pogmk4kjt3bk235uu22fe4dao9flttnr.apps.googleusercontent.com",
+  project_id:   "login-c4b89",
+  auth_uri:     "https://accounts.google.com/o/oauth2/auth",
+  token_uri:    "https://oauth2.googleapis.com/token",
+  cert_url:     "https://www.googleapis.com/oauth2/v1/certs",
+  js_origins:   ["https://medram-ram.github.io"]
+};
+
+// 2) دالة يُنادِيها Google SDK بعد التحميل
+function onGapiLoad() {
+  // أولاً: نحمّل وحدة auth2
+  gapi.load('auth2', () => {
+    // ثم نهيّئها بالـ client_id ونطاقات الوصول
+    gapi.auth2.init({
+      client_id: oauthConfig.client_id,
+      scope: 'profile email'
+    }).then(() => {
+      console.log('Google Auth2 initialized'); 
+    }).catch(err => console.error('Auth2 init failed', err));
+  });
+}
+
+// 3) دالة الاستجابة لنجاح تسجيل الدخول
 function onSignIn(googleUser) {
   const profile = googleUser.getBasicProfile();
-  console.log('ID:566285861664-pogmk4kjt3bk235uu22fe4dao9flttnr.apps.googleusercontent.com' + profile.getId());           // معرف المستخدم
-  console.log('Name: ' + profile.getName());       // اسم المستخدم
-  console.log('Email: ' + profile.getEmail());     // البريد الإلكتروني
-  document.body.innerHTML += `<p>مرحباً، ${profile.getName()}!</p>`;
+  // أمثلة على استخراج البيانات
+  console.log('ID: '    + profile.getId());
+  console.log('Name: '  + profile.getName());
+  console.log('Email: ' + profile.getEmail());
+  // عرض ترحيبي
+  document.body.insertAdjacentHTML(
+    'beforeend', `<p>مرحباً، ${profile.getName()}!</p>`
+  );
+}
+
+// 4) دالة لتسديد الـ ID Token إلى خادمك (اختياريّاً)
+// يمكنك استعمال oauthConfig.token_uri و oauthConfig.client_secret هنا
+async function sendTokenToBackend(googleUser) {
+  const id_token = googleUser.getAuthResponse().id_token;
+  await fetch('/tokensignin', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ id_token })
+  });
 }
 // --------------------
 // 2. دوال مساعدة
