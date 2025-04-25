@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تسجيل الدخول بحساب Google</title>
+  <!-- ربط ملف CSS خارجي -->
+  <link rel="stylesheet" href="css/login.css" />
+  <!-- مكتبة Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-title">مرحبًا بعودتك</div>
+    <div id="g_id_onload"
+         data-client_id="566285861664-pogmk4kjt3bk235uu22fe4dao9flttnr.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+    <div class="help-text">
+      ليس لديك حساب؟ <a href="#">إنشاء حساب جديد</a>
+    </div>
+  </div>
+  <!-- ربط ملف JavaScript خارجي -->
+  <script src="js/login.js"></script>
+</body>
+</html>
