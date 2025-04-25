@@ -1,0 +1,53 @@
+/* الأساسيات */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* خلفية الصفحة ومحاذاة المحتوى */
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a001a; /* داكن جدًا */
+}
+
+/* صندوق تسجيل الدخول */
+.login-container {
+  background: #0d000d; /* داكن جدًا */
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+  text-align: center;
+  width: 320px;
+}
+
+/* عنوان الصفحة */
+.login-title {
+  color: #ff5555; /* أحمر */
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* زر Google */
+.g_id_signin {
+  width: 100% !important;
+  margin-top: 1rem;
+}
+
+/* نص المساعدة مع لمسة صفراء وروابط بنفسجية */
+.help-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #f1fa8c; /* أصفر */
+}
+.help-text a {
+  color: #bd93f9; /* بنفسجي */
+  text-decoration: none;
+}
+.help-text a:hover {
+  text-decoration: underline;
+}
