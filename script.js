@@ -1,5 +1,5 @@
 // ثوابت التطبيق
-const API_BASE_URL = 'https://yts.mx/api/v2/';
+const API_BASE_URL = 'https://yts.lt/api/v2/';
 const CORS_PROXY_URL = 'https://corsproxy.io/?';
 const DEFAULT_LIMIT = 20;
 
