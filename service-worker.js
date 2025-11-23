@@ -1,13 +1,13 @@
 // Service Worker لدعم PWA
 const CACHE_NAME = 'talaroog-cache-v1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json',
-  '/images/icon-192x192.png',
-  '/images/icon-512x512.png'
+  './',
+  './index.html',
+  './style.css',
+  './script.js',
+  './manifest.json',
+  './images/icon-192x192.png',
+  './images/icon-512x512.png'
 ];
 
 // تثبيت Service Worker وتخزين الملفات الأساسية
@@ -68,7 +68,7 @@ self.addEventListener('fetch', event => {
             
             // إذا كان الطلب لصفحة HTML، قم بإرجاع الصفحة الرئيسية
             if (event.request.headers.get('accept').includes('text/html')) {
-              return caches.match('/index.html');
+              return caches.match('./index.html');
             }
           });
       })
