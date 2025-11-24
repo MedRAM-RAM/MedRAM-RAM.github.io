@@ -1,9 +1,9 @@
 const CACHE_NAME = 'movie-app-cache-v1';
 const urlsToCache = [
-  '/MedRAM-RAM.github.io/',
-  '/MedRAM-RAM.github.io/index.html',
-  '/MedRAM-RAM.github.io/style.css',
-  '/MedRAM-RAM.github.io/script.js',
+  '/',
+  '/index.html',
+  '/style.css',
+  '/script.js',
   // يمكنك إضافة المزيد من الأصول هنا
 ];
 
@@ -90,10 +90,10 @@ async function handleShareTarget(request) {
 
   if (imdbId) {
     // إعادة التوجيه إلى الصفحة الرئيسية مع ID IMDb كمعامل بحث
-    const redirectUrl = \`/MedRAM-RAM.github.io/?imdb_id=\${imdbId}\`;
+    const redirectUrl = `/?imdb_id=\${imdbId}`;
     return Response.redirect(redirectUrl, 302);
   } else {
     // إعادة التوجيه إلى الصفحة الرئيسية إذا لم يتم العثور على ID IMDb
-    return Response.redirect('/MedRAM-RAM.github.io/', 302);
+    return Response.redirect('/', 302);
   }
 }

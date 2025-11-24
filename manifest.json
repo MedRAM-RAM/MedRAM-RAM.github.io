@@ -2,7 +2,7 @@
   "name": "تطبيق الأفلام",
   "short_name": "أفلام",
   "description": "تطبيق للبحث عن الأفلام وعرض تفاصيلها",
-  "start_url": "/MedRAM-RAM.github.io/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
@@ -19,7 +19,7 @@
     }
   ],
   "share_target": {
-    "action": "/MedRAM-RAM.github.io/share-target/",
+    "action": "/share-target/",
     "method": "GET",
     "params": {
       "title": "title",
