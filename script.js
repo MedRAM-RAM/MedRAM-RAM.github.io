@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('prev-page').addEventListener('click', () => changePage(currentPage - 1));
   document.getElementById('next-page').addEventListener('click', () => changePage(currentPage + 1));
   
-  // تسجيل Service Worker
-  registerServiceWorker();
+
   
   // معالجة الروابط المشاركة
   handleSharedLinks();
@@ -158,7 +157,7 @@ async function searchMovieByImdbId(imdbId) {
   }
 }
 
-// ... (بقية الدوال كما هي)
+
 
 /**
  * تسجيل Service Worker
@@ -192,4 +191,7 @@ function handleSharedLinks() {
   }
 }
 
-// ... (بقية الدوال كما هي)
+
+
+// تسجيل Service Worker في نهاية الملف لضمان التنفيذ
+registerServiceWorker();
