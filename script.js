@@ -164,7 +164,7 @@ async function searchMovieByImdbId(imdbId) {
  */
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js')
+   navigator.serviceWorker.register('/service-worker.js')
       .then(registration => {
         console.log('Service Worker تم تسجيله بنجاح:', registration);
       })
