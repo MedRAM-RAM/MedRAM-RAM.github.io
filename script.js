@@ -1,6 +1,6 @@
 // الثوابت
 const API_BASE_URL = 'https://yts.mx/api/v2/';
-const CORS_PROXY_URL = 'https://cors-anywhere.herokuapp.com/'; // قد تحتاج إلى استبدال هذا بوكيل خاص بك
+const CORS_PROXY_URL = 'https://corsproxy.io/?'; // وكيل CORS جديد وموثوق به
 
 // المتغيرات
 let currentPage = 1;
@@ -43,7 +43,7 @@ async function fetchMovies(query = '', page = 1) {
       sort_by: 'download_count'
     });
     
-    const response = await fetch(\`\${CORS_PROXY_URL}\${API_BASE_URL}list_movies.json?\${params.toString()}\`);
+    const response = await fetch(\`\${CORS_PROXY_URL}\${encodeURIComponent(\`\${API_BASE_URL}list_movies.json?\${params.toString()}\`)}\`);
     const data = await response.json();
     
     if (data.status === 'ok' && data.data.movies) {
@@ -96,7 +96,7 @@ async function getMovieDetails(movieId) {
       with_cast: true
     });
     
-    const response = await fetch(\`\${CORS_PROXY_URL}\${API_BASE_URL}movie_details.json?\${params.toString()}\`);
+    const response = await fetch(\`\${CORS_PROXY_URL}\${encodeURIComponent(\`\${API_BASE_URL}movie_details.json?\${params.toString()}\`)}\`);
     const data = await response.json();
     
     if (data.status === 'ok' && data.data.movie) {
