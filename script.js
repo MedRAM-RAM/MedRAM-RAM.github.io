@@ -155,29 +155,7 @@ async function searchMovieByImdbId(imdbId) {
   } finally {
     showLoading(false);
   }
-}
-
-
-
-/**
- * تسجيل Service Worker
- */
-function registerServiceWorker() {
-  if ('serviceWorker' in navigator) {
-   navigator.serviceWorker.register('service-worker.js', { scope: './' })
-      .then(registration => {
-        console.log('Service Worker تم تسجيله بنجاح:', registration);
-      })
-      .catch(error => {
-        console.error('فشل في تسجيل Service Worker:', error);
-      });
-  }
-}
-
-/**
- * معالجة الروابط المشاركة من التطبيقات الأخرى
- */
-function handleSharedLinks() {
+}Links() {
   const params = new URLSearchParams(window.location.search);
   const imdbId = params.get('imdb_id');
   
