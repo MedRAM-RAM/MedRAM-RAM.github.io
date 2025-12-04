@@ -20,6 +20,10 @@
       "purpose": "any maskable"
     }
   ],
+  "id": "/",
+  "orientation": "portrait",
+  "categories": ["entertainment", "movies", "media"],
+  "screenshots": [],
   "share_target": {
     "action": "/index.html",
     "method": "GET",

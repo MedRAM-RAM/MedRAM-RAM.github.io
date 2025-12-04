@@ -4,6 +4,8 @@ const urlsToCache = [
   '/index.html',
   '/style.css',
   '/script.js',
+  '/service-worker.js',
+  '/service-worker-registration.js',
   // يمكنك إضافة المزيد من الأصول هنا
 ];
 
