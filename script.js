@@ -171,5 +171,3 @@ async function searchMovieByImdbId(imdbId) {
 
 
 
-// تسجيل Service Worker في نهاية الملف لضمان التنفيذ
-registerServiceWorker();
