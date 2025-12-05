@@ -1,6 +1,6 @@
 // الثوابت
 const API_BASE_URL = 'https://yts.mx/api/v2/';
-const CORS_PROXY_URL = 'https://corsproxy.io/?'; // وكيل CORS جديد وموثوق به
+const CORS_PROXY_URL = 'https://api.allorigins.win/get?url='; // وكيل CORS جديد وموثوق به
 
 // المتغيرات
 let currentPage = 1;
@@ -44,7 +44,8 @@ async function fetchMovies(query = '', page = 1) {
     });
     
     const response = await fetch(\`\${CORS_PROXY_URL}\${encodeURIComponent(\`\${API_BASE_URL}list_movies.json?\${params.toString()}\`)}\`);
-    const data = await response.json();
+    const allOriginsData = await response.json();
+    const data = JSON.parse(allOriginsData.contents);
     
     if (data.status === 'ok' && data.data.movies) {
       displayMovies(data.data.movies);
@@ -97,7 +98,8 @@ async function getMovieDetails(movieId) {
     });
     
     const response = await fetch(\`\${CORS_PROXY_URL}\${encodeURIComponent(\`\${API_BASE_URL}movie_details.json?\${params.toString()}\`)}\`);
-    const data = await response.json();
+    const allOriginsData = await response.json();
+    const data = JSON.parse(allOriginsData.contents);
     
     if (data.status === 'ok' && data.data.movie) {
       return data.data.movie;
