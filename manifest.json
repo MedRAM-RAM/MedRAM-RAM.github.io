@@ -2,10 +2,7 @@
   "name": "TALAROOG",
   "short_name": "TALAROOG",
   "description": "تصفح وتحميل أحدث الأفلام",
-  "lang": "ar",
-  "dir": "rtl",
-  "scope": "/",
-  "start_url": "/",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#121212",
   "theme_color": "#8A2BE2",
@@ -21,19 +18,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "id": "/",
-  "orientation": "portrait",
-  "categories": ["entertainment", "movies", "media"],
-  "screenshots": [],
-  "shortcuts": [
-    {
-      "name": "البحث عن فيلم",
-      "short_name": "بحث",
-      "description": "البحث السريع عن الأفلام",
-      "url": "/?source=pwa-shortcut-search",
-      "icons": [{ "src": "images/icon-192x192.png", "sizes": "192x192" }]
     }
   ],
   "share_target": {

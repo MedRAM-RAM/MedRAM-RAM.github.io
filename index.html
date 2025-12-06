@@ -6,9 +6,7 @@
     <title>TALAROOG | تصفح وتحميل الأفلام</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <meta name="description" content="TALAROOG - موقع لتصفح وتحميل أحدث الأفلام بجودة عالية مع واجهة مستخدم سهلة وتصميم متجاوب">
     <meta name="theme-color" content="#8A2BE2">
     <link rel="manifest" href="manifest.json">
@@ -22,15 +20,24 @@
     <header>
         <div class="container">
             <div class="header-content">
-            <div class="logo">TALAROOG</div>
-            <div class="search-sort-container">
-                <form class="search-bar" id="search-form">
-                    <div class="search-input-container">
-                        <input type="text" id="search-input" placeholder="Search for a movie..." dir="ltr">
-                        <button type="button" id="clear-search-button" class="clear-search-button" style="display: none;">&times;</button>
-                    </div>
-                    <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
-                </form>
+                <div class="logo">TALAROOG</div>
+                <div class="search-container">
+                    <form class="search-bar" id="search-form">
+                        <div class="search-input-container">
+                            <input type="text" id="search-input" placeholder="Search for a movie..." dir="ltr">
+                            <button type="button" id="clear-search-button" class="clear-search-button" style="display: none;">&times;</button>
+                        </div>
+                        <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- قسم الفرز والتصنيفات -->
+    <section class="filter-sort-section">
+        <div class="container">
+            <div class="filter-sort-container">
                 <div class="sort-dropdown">
                     <button type="button" id="sort-button"><i class="fas fa-sort"></i></button>
                     <div class="sort-dropdown-content" id="sort-dropdown-content">
@@ -52,27 +59,20 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        </div>
-    </header>
-
-    <!-- قسم التصنيفات الأفقي -->
-    <section class="genres-bar">
-        <div class="container">
-            <div class="genres-container">
-                <div class="genre-tag active" data-value="">الكل</div>
-                <div class="genre-tag" data-value="action">أكشن</div>
-                <div class="genre-tag" data-value="adventure">مغامرة</div>
-                <div class="genre-tag" data-value="animation">رسوم</div>
-                <div class="genre-tag" data-value="comedy">كوميديا</div>
-                <div class="genre-tag" data-value="crime">جريمة</div>
-                <div class="genre-tag" data-value="drama">دراما</div>
-                <div class="genre-tag" data-value="fantasy">خيال</div>
-                <div class="genre-tag" data-value="horror">رعب</div>
-                <div class="genre-tag" data-value="romance">رومانسي</div>
-                <div class="genre-tag" data-value="sci-fi">خيال علمي</div>
-                <div class="genre-tag" data-value="thriller">إثارة</div>
+                <div class="genres-container">
+                    <div class="genre-tag active" data-value="">الكل</div>
+                    <div class="genre-tag" data-value="action">أكشن</div>
+                    <div class="genre-tag" data-value="adventure">مغامرة</div>
+                    <div class="genre-tag" data-value="animation">رسوم</div>
+                    <div class="genre-tag" data-value="comedy">كوميديا</div>
+                    <div class="genre-tag" data-value="crime">جريمة</div>
+                    <div class="genre-tag" data-value="drama">دراما</div>
+                    <div class="genre-tag" data-value="fantasy">خيال</div>
+                    <div class="genre-tag" data-value="horror">رعب</div>
+                    <div class="genre-tag" data-value="romance">رومانسي</div>
+                    <div class="genre-tag" data-value="sci-fi">خيال علمي</div>
+                    <div class="genre-tag" data-value="thriller">إثارة</div>
+                </div>
             </div>
         </div>
     </section>
@@ -146,7 +146,6 @@
     </footer>
 
     <!-- سكريبت جافاسكريبت -->
-    <script src="service-worker-registration.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
