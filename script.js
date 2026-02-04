@@ -59,10 +59,11 @@ function checkForSharedData() {
 function registerEventListeners() {
   const searchInput = document.getElementById('search-input');
   const searchButton = document.getElementById('search-button');
-  const clearSearch = document.getElementById('clear-search');
+  const clearSearch = document.getElementById('clear-search-button');
 
   if (searchButton) {
-    searchButton.addEventListener('click', () => {
+    searchButton.addEventListener('click', (e) => {
+      e.preventDefault();
       currentSearchQuery = searchInput.value.trim();
       currentPage = 1;
       loadMovies();
@@ -72,6 +73,7 @@ function registerEventListeners() {
   if (searchInput) {
     searchInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
+        e.preventDefault();
         currentSearchQuery = searchInput.value.trim();
         currentPage = 1;
         loadMovies();
@@ -112,7 +114,7 @@ function registerEventListeners() {
   const sortOptions = document.querySelectorAll('.sort-option');
   sortOptions.forEach(option => {
     option.addEventListener('click', () => {
-      const sortBy = option.dataset.value; // تم التغيير من dataset.sort إلى dataset.value
+      const sortBy = option.dataset.value;
       if (sortBy) {
         currentSortBy = sortBy;
         sortOptions.forEach(opt => opt.classList.remove('active'));
@@ -127,7 +129,7 @@ function registerEventListeners() {
   const genreTags = document.querySelectorAll('.genre-tag');
   genreTags.forEach(tag => {
     tag.addEventListener('click', () => {
-      const genre = tag.dataset.value; // تم التغيير من dataset.genre إلى dataset.value
+      const genre = tag.dataset.value;
       currentGenreValue = genre || '';
       genreTags.forEach(t => t.classList.remove('active'));
       tag.classList.add('active');
@@ -136,7 +138,6 @@ function registerEventListeners() {
     });
   });
 
-  // إضافة مستمع لاتجاه الفرز
   const sortDirectionInputs = document.querySelectorAll('input[name="sort-direction"]');
   sortDirectionInputs.forEach(input => {
     input.addEventListener('change', () => {
@@ -190,9 +191,8 @@ async function displayMovies(movies) {
   const moviesGrid = document.getElementById('movies-grid');
   if (!moviesGrid) return;
   
-  // جلب تقييمات IMDb بشكل متوازي لسرعة العرض
   const moviesWithImdb = await Promise.all(movies.map(async (movie) => {
-    let imdbRating = movie.rating; // القيمة الافتراضية
+    let imdbRating = movie.rating || 'N/A';
     if (movie.imdb_code) {
       try {
         const omdbRes = await fetch(`https://www.omdbapi.com/?i=${movie.imdb_code}&apikey=9b8d2c00`);
@@ -208,7 +208,7 @@ async function displayMovies(movies) {
   moviesGrid.innerHTML = moviesWithImdb.map(movie => `
     <div class="movie-card" data-id="${movie.id}" onclick="handleCardClick(this, ${movie.id})">
       <div class="movie-poster">
-        <img src="${movie.medium_cover_image || createDefaultPosterImage()}" alt="${movie.title}" loading="lazy">
+        <img src="${movie.medium_cover_image || createDefaultPosterImage()}" alt="${movie.title || 'N/A'}" loading="lazy">
         <div class="movie-rating">
           <i class="fab fa-imdb" style="color: #f5c518;"></i> ${movie.imdbRating}
         </div>
@@ -219,37 +219,26 @@ async function displayMovies(movies) {
         </div>
       </div>
       <div class="movie-info">
-        <h3 class="movie-title">${movie.title}</h3>
-        <p class="movie-year">${movie.year}</p>
+        <h3 class="movie-title">${movie.title || 'N/A'}</h3>
+        <p class="movie-year">${movie.year || 'N/A'}</p>
       </div>
     </div>
   `).join('');
 }
 
-/**
- * معالجة الضغط على بطاقة الفيلم (نظام الضغط المزدوج)
- */
 function handleCardClick(cardElement, movieId) {
-  // إذا كانت البطاقة نشطة بالفعل (الضغطة الثانية)
   if (cardElement.classList.contains('card-active')) {
     openMovieDetails(movieId);
     cardElement.classList.remove('card-active');
   } else {
-    // الضغطة الأولى: تفعيل البطاقة وإظهار الزر
-    // إزالة الحالة النشطة من جميع البطاقات الأخرى أولاً
     document.querySelectorAll('.movie-card').forEach(c => c.classList.remove('card-active'));
     cardElement.classList.add('card-active');
-    
-    // إغلاق الحالة النشطة تلقائياً بعد 3 ثوانٍ إذا لم يتم الضغط مرة أخرى
     setTimeout(() => {
       cardElement.classList.remove('card-active');
     }, 3000);
   }
 }
 
-/**
- * عرض رسالة عند عدم وجود نتائج
- */
 function displayNoResults() {
   const moviesGrid = document.getElementById('movies-grid');
   const pagination = document.getElementById('pagination');
@@ -264,9 +253,6 @@ function displayNoResults() {
   if (pagination) pagination.innerHTML = '';
 }
 
-/**
- * فتح تفاصيل الفيلم
- */
 async function openMovieDetails(movieId) {
   const movieDetailsElement = document.getElementById('movie-details');
   movieDetailsElement.innerHTML = `<button class="close-details">&times;</button><div class="loading-details"><div class="spinner"></div></div>`;
@@ -295,13 +281,13 @@ async function openMovieDetails(movieId) {
       <div class="details-header">
         <img class="details-backdrop" src="${movie.background_image_original || movie.large_cover_image}" alt="backdrop">
         <div class="details-header-content">
-          <img class="details-poster" src="${movie.large_cover_image}" alt="${movie.title}">
+          <img class="details-poster" src="${movie.large_cover_image}" alt="${movie.title || 'N/A'}">
           <div class="details-title">
-            <h1>${movie.title}</h1>
+            <h1>${movie.title || 'N/A'}</h1>
             <div class="details-meta">
-              <span><i class="far fa-calendar-alt"></i> ${movie.year}</span>
-              <span><i class="far fa-clock"></i> ${movie.runtime} min</span>
-              <span><i class="fas fa-star"></i> ${movie.rating}/10</span>
+              <span><i class="far fa-calendar-alt"></i> ${movie.year || 'N/A'}</span>
+              <span><i class="far fa-clock"></i> ${movie.runtime || 'N/A'} min</span>
+              <span><i class="fas fa-star"></i> ${movie.rating || 'N/A'}/10</span>
               ${omdbData && omdbData.imdbRating ? `<span><i class="fab fa-imdb" style="color: #f5c518;"></i> ${omdbData.imdbRating}/10</span>` : ''}
             </div>
             <div class="details-genres">
@@ -317,7 +303,7 @@ async function openMovieDetails(movieId) {
         <div class="details-main">
           <div class="details-section">
             <h3>Storyline</h3>
-            <p>${omdbData && omdbData.Plot && omdbData.Plot !== "N/A" ? omdbData.Plot : (movie.description_full || 'No description available.')}</p>
+            <p>${omdbData && omdbData.Plot && omdbData.Plot !== "N/A" ? omdbData.Plot : (movie.description_full || 'N/A')}</p>
           </div>
           ${omdbData && omdbData.Awards && omdbData.Awards !== "N/A" ? `
             <div class="details-section">
@@ -329,10 +315,13 @@ async function openMovieDetails(movieId) {
             <div class="details-section">
               <h3>Cast</h3>
               <div class="cast-list">
-                ${movie.cast.slice(0, 6).map(c => `
+                ${movie.cast.map(c => `
                   <div class="cast-item">
-                    <img class="cast-photo" src="${c.url_small_image || createDefaultProfileImage()}" alt="${c.name}" onerror="this.src='${createDefaultProfileImage()}'">
-                    <div class="cast-info"><p>${c.name}</p><span>${c.character_name || ''}</span></div>
+                    <img class="cast-photo" src="${c.url_small_image || createDefaultProfileImage()}" alt="${c.name || 'N/A'}">
+                    <div class="cast-info">
+                      <p>${c.name || 'N/A'}</p>
+                      <span>${c.character_name || 'N/A'}</span>
+                    </div>
                   </div>
                 `).join('')}
               </div>
@@ -344,9 +333,11 @@ async function openMovieDetails(movieId) {
             <h3>Downloads</h3>
             ${movie.torrents ? movie.torrents.map(t => `
               <div class="download-card">
-                <span class="quality-tag">${t.quality}</span>
-                <span>${t.size}</span>
-                <a href="magnet:?xt=urn:btih:${t.hash}&dn=${encodeURIComponent(movie.title)}" class="magnet-btn"><i class="fas fa-magnet"></i> Magnet</a>
+                <div class="quality-tag">${t.quality}</div>
+                <div class="size-info">${t.size}</div>
+                <a href="magnet:?xt=urn:btih:${t.hash}&dn=${encodeURIComponent(movie.title)}&tr=udp://open.demonii.com:1337/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce" class="magnet-btn">
+                  <i class="fas fa-magnet"></i> Magnet
+                </a>
               </div>
             `).join('') : '<p>No downloads available.</p>'}
           </div>
@@ -375,8 +366,17 @@ function renderPagination() {
   if (!el) return;
   el.innerHTML = '';
   if (totalPages <= 1) return;
+
+  // زر السابق
+  const prevBtn = document.createElement('button');
+  prevBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; loadMovies(); window.scrollTo(0,0); } };
+  el.appendChild(prevBtn);
+
   const start = Math.max(1, currentPage - 2);
   const end = Math.min(totalPages, start + 4);
+
   for (let i = start; i <= end; i++) {
     const btn = document.createElement('button');
     btn.textContent = i;
@@ -384,6 +384,13 @@ function renderPagination() {
     btn.onclick = () => { currentPage = i; loadMovies(); window.scrollTo(0,0); };
     el.appendChild(btn);
   }
+
+  // زر التالي
+  const nextBtn = document.createElement('button');
+  nextBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; loadMovies(); window.scrollTo(0,0); } };
+  el.appendChild(nextBtn);
 }
 
 function showLoading(show) {
