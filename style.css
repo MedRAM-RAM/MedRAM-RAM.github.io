@@ -700,3 +700,47 @@ header {
     font-size: 1.5rem;
   }
 }
+
+/* تنسيق أزرار الصفحات */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 15px;
+  background-color: #222;
+  color: var(--text-color);
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-weight: bold;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination button:hover {
+  background-color: #333;
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.pagination button.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--rating-color);
+  box-shadow: 0 4px 12px rgba(138, 43, 226, 0.4);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
