@@ -4,6 +4,8 @@
   "description": "تصفح وتحميل أحدث الأفلام",
   "start_url": "/index.html",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
+  "orientation": "portrait",
   "background_color": "#121212",
   "theme_color": "#8A2BE2",
   "icons": [
